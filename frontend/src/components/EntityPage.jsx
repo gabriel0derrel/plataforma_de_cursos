@@ -1,6 +1,7 @@
 import { ArrowLeft, Plus, RefreshCw, Save } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../classes/Usuario/AuthContext';
 import { formatCurrency, formatDate } from '../utils/formatters';
 
 function formatLabel(name) {
@@ -39,6 +40,7 @@ function Field({ field, value, onChange }) {
 }
 
 export function EntityList({ config }) {
+  const { usuario } = useAuth();
   const location = useLocation();
   const Icon = config.icon;
   const [items, setItems] = useState([]);
@@ -59,24 +61,38 @@ export function EntityList({ config }) {
 
   useEffect(() => { load(); }, [load]);
 
+  async function toggleInstructor(item) {
+    setError('');
+    try {
+      await config.service.atualizar(item.ID_Usuario, { IsInstrutor: !item.IsInstrutor });
+      await load();
+    } catch (requestError) {
+      setError(requestError.message);
+    }
+  }
+
+  const canManage = Boolean(usuario?.IsAdmin) || usuario?.Email?.toLowerCase() === 'admin@admin.com';
+  const canToggleInstructor = canManage && config.key === 'usuarios';
+
   return (
     <section className="page">
       <header className="page-heading">
         <div><p className="eyebrow">Cadastro</p><h1>{config.plural}</h1></div>
-        <Link className="button primary" to={config.route + '/novo'}><Plus size={18} />Novo</Link>
+        {canManage && <Link className="button primary" to={config.route + '/novo'}><Plus size={18} />Novo</Link>}
       </header>
       {location.state?.notice && <p className="success-message">{location.state.notice}</p>}
       <div className="panel table-panel">
         {loading && <p className="loading-text">Carregando dados...</p>}
         {!loading && error && <div className="empty-state"><Icon size={31} /><p>{error}</p><button className="icon-button" type="button" onClick={load} aria-label="Tentar novamente" title="Tentar novamente"><RefreshCw size={18} /></button></div>}
         {!loading && !error && items.length === 0 && <div className="empty-state"><Icon size={31} /><p>Nenhum registro cadastrado.</p></div>}
-        {!loading && !error && items.length > 0 && <div className="table-scroll"><table><thead><tr>{config.columns.map((column) => <th key={column}>{formatLabel(column)}</th>)}</tr></thead><tbody>{items.map((item, index) => <tr key={item.ID || item[config.columns[0]] || index}>{config.columns.map((column) => <td key={column}>{formatValue(column, item[column])}</td>)}</tr>)}</tbody></table></div>}
+        {!loading && !error && items.length > 0 && <div className="table-scroll"><table><thead><tr>{config.columns.map((column) => <th key={column}>{formatLabel(column)}</th>)}{canToggleInstructor && <th>Acoes</th>}</tr></thead><tbody>{items.map((item, index) => <tr key={item.ID || item[config.columns[0]] || index}>{config.columns.map((column) => <td key={column}>{formatValue(column, item[column])}</td>)}{canToggleInstructor && <td><button className="button secondary" type="button" onClick={() => toggleInstructor(item)}>{item.IsInstrutor ? 'Remover instrutor' : 'Tornar instrutor'}</button></td>}</tr>)}</tbody></table></div>}
       </div>
     </section>
   );
 }
 
 export function EntityForm({ config }) {
+  const { usuario } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({});
   const [error, setError] = useState('');
@@ -99,6 +115,9 @@ export function EntityForm({ config }) {
       setLoading(false);
     }
   }
+
+  const canManage = Boolean(usuario?.IsAdmin) || usuario?.Email?.toLowerCase() === 'admin@admin.com';
+  if (!canManage) return <Navigate to={config.route} replace />;
 
   return (
     <section className="page narrow-page">

@@ -1511,6 +1511,7 @@ export const UsuarioScalarFieldEnum = {
   Email: 'Email',
   Senha: 'Senha',
   IsInstrutor: 'IsInstrutor',
+  IsAdmin: 'IsAdmin',
   DataCadastro: 'DataCadastro'
 } as const
 

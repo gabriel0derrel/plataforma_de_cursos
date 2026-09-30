@@ -14,12 +14,13 @@ export class AuthService {
       throw new UnauthorizedException('E-mail ou senha incorretos.');
     }
 
-    const accessToken = await this.jwt.signAsync({ sub: usuario.ID_Usuario, email: usuario.Email });
+    const accessToken = await this.jwt.signAsync({ sub: usuario.ID_Usuario, email: usuario.Email, isAdmin: usuario.IsAdmin });
     const safeUser = {
       ID_Usuario: usuario.ID_Usuario,
       NomeCompleto: usuario.NomeCompleto,
       Email: usuario.Email,
       IsInstrutor: usuario.IsInstrutor,
+      IsAdmin: usuario.IsAdmin,
       DataCadastro: usuario.DataCadastro,
     };
 

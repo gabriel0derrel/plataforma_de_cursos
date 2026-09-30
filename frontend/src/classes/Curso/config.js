@@ -2,7 +2,7 @@ import { GraduationCap } from 'lucide-react';
 import { Curso } from './Curso';
 import { cursoService } from './cursoService';
 export const cursoConfig = {
-  key: 'cursos', route: '/cursos', singular: 'Curso', plural: 'Cursos', icon: GraduationCap, Model: Curso, service: cursoService,
+  key: 'cursos', route: '/cursos', singular: 'Curso', plural: 'Cursos', public: true, icon: GraduationCap, Model: Curso, service: cursoService,
   columns: ['ID_Curso', 'Titulo', 'Nivel', 'ID_Instrutor', 'ID_Categoria', 'DataPublicacao'],
   fields: [
     { name: 'Titulo', label: 'Titulo', type: 'text', required: true }, { name: 'Descricao', label: 'Descricao', type: 'textarea', required: true },

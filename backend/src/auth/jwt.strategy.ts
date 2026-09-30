@@ -11,7 +11,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({ jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), ignoreExpiration: false, secretOrKey: secret });
   }
 
-  validate({ sub, email }: { sub: number; email: string }) {
-    return { userId: sub, email };
+  validate({ sub, email, isAdmin }: { sub: number; email: string; isAdmin: boolean }) {
+    return { userId: sub, email, isAdmin };
   }
 }

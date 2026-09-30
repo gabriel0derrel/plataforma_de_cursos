@@ -51,7 +51,21 @@ Para testar rotas protegidas:
 3. Clique em **Authorize** no Swagger e informe o token JWT.
 4. Execute as rotas de recursos, como `/api/cursos` e `/api/usuarios`.
 
-O cadastro e o login são públicos. As demais rotas exigem o cabeçalho `Authorization: Bearer <token>`.
+O cadastro e o login são públicos. A consulta de categorias, cursos e módulos também é pública; as demais rotas exigem o cabeçalho `Authorization: Bearer <token>`.
+
+## Acessos e administrador
+
+Visitantes veem a Visão Geral, Categorias, Cursos e Módulos. Após o login, todos os menus ficam disponíveis. Apenas administradores podem criar, editar ou remover conteúdos e alterar o indicador de instrutor de um usuário existente.
+
+Na primeira inicialização da API, o administrador é criado ou promovido automaticamente:
+
+```text
+Nome: Admin
+E-mail: admin@admin.com
+Senha: STARTREK
+```
+
+Após entrar com essa conta, use o menu **Usuários** e o botão **Tornar instrutor** (ou **Remover instrutor**) para administrar os instrutores.
 
 ## Prisma e banco de dados
 

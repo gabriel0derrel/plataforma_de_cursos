@@ -17,4 +17,11 @@ export class EntityService {
       body: new this.Model(data).toPayload(),
     });
   }
+
+  atualizar(id, data) {
+    return request(this.endpoint + '/' + id, {
+      method: 'PATCH',
+      body: data,
+    });
+  }
 }

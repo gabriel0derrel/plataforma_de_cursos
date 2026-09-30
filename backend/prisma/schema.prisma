@@ -14,6 +14,7 @@ model Usuario {
   Email String @unique
   Senha String
   IsInstrutor Boolean @default(false)
+  IsAdmin Boolean @default(false)
   DataCadastro DateTime @default(now())
   CursosMinistrados Curso[] @relation("InstrutorCursos")
   Matriculas Matricula[]

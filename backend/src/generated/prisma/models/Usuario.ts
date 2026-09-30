@@ -40,6 +40,7 @@ export type UsuarioMinAggregateOutputType = {
   Email: string | null
   Senha: string | null
   IsInstrutor: boolean | null
+  IsAdmin: boolean | null
   DataCadastro: Date | null
 }
 
@@ -49,6 +50,7 @@ export type UsuarioMaxAggregateOutputType = {
   Email: string | null
   Senha: string | null
   IsInstrutor: boolean | null
+  IsAdmin: boolean | null
   DataCadastro: Date | null
 }
 
@@ -58,6 +60,7 @@ export type UsuarioCountAggregateOutputType = {
   Email: number
   Senha: number
   IsInstrutor: number
+  IsAdmin: number
   DataCadastro: number
   _all: number
 }
@@ -77,6 +80,7 @@ export type UsuarioMinAggregateInputType = {
   Email?: true
   Senha?: true
   IsInstrutor?: true
+  IsAdmin?: true
   DataCadastro?: true
 }
 
@@ -86,6 +90,7 @@ export type UsuarioMaxAggregateInputType = {
   Email?: true
   Senha?: true
   IsInstrutor?: true
+  IsAdmin?: true
   DataCadastro?: true
 }
 
@@ -95,6 +100,7 @@ export type UsuarioCountAggregateInputType = {
   Email?: true
   Senha?: true
   IsInstrutor?: true
+  IsAdmin?: true
   DataCadastro?: true
   _all?: true
 }
@@ -191,6 +197,7 @@ export type UsuarioGroupByOutputType = {
   Email: string
   Senha: string
   IsInstrutor: boolean
+  IsAdmin: boolean
   DataCadastro: Date
   _count: UsuarioCountAggregateOutputType | null
   _avg: UsuarioAvgAggregateOutputType | null
@@ -223,6 +230,7 @@ export type UsuarioWhereInput = {
   Email?: Prisma.StringFilter<"Usuario"> | string
   Senha?: Prisma.StringFilter<"Usuario"> | string
   IsInstrutor?: Prisma.BoolFilter<"Usuario"> | boolean
+  IsAdmin?: Prisma.BoolFilter<"Usuario"> | boolean
   DataCadastro?: Prisma.DateTimeFilter<"Usuario"> | Date | string
   CursosMinistrados?: Prisma.CursoListRelationFilter
   Matriculas?: Prisma.MatriculaListRelationFilter
@@ -238,6 +246,7 @@ export type UsuarioOrderByWithRelationInput = {
   Email?: Prisma.SortOrder
   Senha?: Prisma.SortOrder
   IsInstrutor?: Prisma.SortOrder
+  IsAdmin?: Prisma.SortOrder
   DataCadastro?: Prisma.SortOrder
   CursosMinistrados?: Prisma.CursoOrderByRelationAggregateInput
   Matriculas?: Prisma.MatriculaOrderByRelationAggregateInput
@@ -256,6 +265,7 @@ export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
   NomeCompleto?: Prisma.StringFilter<"Usuario"> | string
   Senha?: Prisma.StringFilter<"Usuario"> | string
   IsInstrutor?: Prisma.BoolFilter<"Usuario"> | boolean
+  IsAdmin?: Prisma.BoolFilter<"Usuario"> | boolean
   DataCadastro?: Prisma.DateTimeFilter<"Usuario"> | Date | string
   CursosMinistrados?: Prisma.CursoListRelationFilter
   Matriculas?: Prisma.MatriculaListRelationFilter
@@ -271,6 +281,7 @@ export type UsuarioOrderByWithAggregationInput = {
   Email?: Prisma.SortOrder
   Senha?: Prisma.SortOrder
   IsInstrutor?: Prisma.SortOrder
+  IsAdmin?: Prisma.SortOrder
   DataCadastro?: Prisma.SortOrder
   _count?: Prisma.UsuarioCountOrderByAggregateInput
   _avg?: Prisma.UsuarioAvgOrderByAggregateInput
@@ -288,6 +299,7 @@ export type UsuarioScalarWhereWithAggregatesInput = {
   Email?: Prisma.StringWithAggregatesFilter<"Usuario"> | string
   Senha?: Prisma.StringWithAggregatesFilter<"Usuario"> | string
   IsInstrutor?: Prisma.BoolWithAggregatesFilter<"Usuario"> | boolean
+  IsAdmin?: Prisma.BoolWithAggregatesFilter<"Usuario"> | boolean
   DataCadastro?: Prisma.DateTimeWithAggregatesFilter<"Usuario"> | Date | string
 }
 
@@ -296,6 +308,7 @@ export type UsuarioCreateInput = {
   Email: string
   Senha: string
   IsInstrutor?: boolean
+  IsAdmin?: boolean
   DataCadastro?: Date | string
   CursosMinistrados?: Prisma.CursoCreateNestedManyWithoutInstrutorInput
   Matriculas?: Prisma.MatriculaCreateNestedManyWithoutUsuarioInput
@@ -311,6 +324,7 @@ export type UsuarioUncheckedCreateInput = {
   Email: string
   Senha: string
   IsInstrutor?: boolean
+  IsAdmin?: boolean
   DataCadastro?: Date | string
   CursosMinistrados?: Prisma.CursoUncheckedCreateNestedManyWithoutInstrutorInput
   Matriculas?: Prisma.MatriculaUncheckedCreateNestedManyWithoutUsuarioInput
@@ -325,6 +339,7 @@ export type UsuarioUpdateInput = {
   Email?: Prisma.StringFieldUpdateOperationsInput | string
   Senha?: Prisma.StringFieldUpdateOperationsInput | string
   IsInstrutor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  IsAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   DataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   CursosMinistrados?: Prisma.CursoUpdateManyWithoutInstrutorNestedInput
   Matriculas?: Prisma.MatriculaUpdateManyWithoutUsuarioNestedInput
@@ -340,6 +355,7 @@ export type UsuarioUncheckedUpdateInput = {
   Email?: Prisma.StringFieldUpdateOperationsInput | string
   Senha?: Prisma.StringFieldUpdateOperationsInput | string
   IsInstrutor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  IsAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   DataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   CursosMinistrados?: Prisma.CursoUncheckedUpdateManyWithoutInstrutorNestedInput
   Matriculas?: Prisma.MatriculaUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -355,6 +371,7 @@ export type UsuarioCreateManyInput = {
   Email: string
   Senha: string
   IsInstrutor?: boolean
+  IsAdmin?: boolean
   DataCadastro?: Date | string
 }
 
@@ -363,6 +380,7 @@ export type UsuarioUpdateManyMutationInput = {
   Email?: Prisma.StringFieldUpdateOperationsInput | string
   Senha?: Prisma.StringFieldUpdateOperationsInput | string
   IsInstrutor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  IsAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   DataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -372,6 +390,7 @@ export type UsuarioUncheckedUpdateManyInput = {
   Email?: Prisma.StringFieldUpdateOperationsInput | string
   Senha?: Prisma.StringFieldUpdateOperationsInput | string
   IsInstrutor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  IsAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   DataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -381,6 +400,7 @@ export type UsuarioCountOrderByAggregateInput = {
   Email?: Prisma.SortOrder
   Senha?: Prisma.SortOrder
   IsInstrutor?: Prisma.SortOrder
+  IsAdmin?: Prisma.SortOrder
   DataCadastro?: Prisma.SortOrder
 }
 
@@ -394,6 +414,7 @@ export type UsuarioMaxOrderByAggregateInput = {
   Email?: Prisma.SortOrder
   Senha?: Prisma.SortOrder
   IsInstrutor?: Prisma.SortOrder
+  IsAdmin?: Prisma.SortOrder
   DataCadastro?: Prisma.SortOrder
 }
 
@@ -403,6 +424,7 @@ export type UsuarioMinOrderByAggregateInput = {
   Email?: Prisma.SortOrder
   Senha?: Prisma.SortOrder
   IsInstrutor?: Prisma.SortOrder
+  IsAdmin?: Prisma.SortOrder
   DataCadastro?: Prisma.SortOrder
 }
 
@@ -524,6 +546,7 @@ export type UsuarioCreateWithoutCursosMinistradosInput = {
   Email: string
   Senha: string
   IsInstrutor?: boolean
+  IsAdmin?: boolean
   DataCadastro?: Date | string
   Matriculas?: Prisma.MatriculaCreateNestedManyWithoutUsuarioInput
   Progressos?: Prisma.ProgressoAulaCreateNestedManyWithoutUsuarioInput
@@ -538,6 +561,7 @@ export type UsuarioUncheckedCreateWithoutCursosMinistradosInput = {
   Email: string
   Senha: string
   IsInstrutor?: boolean
+  IsAdmin?: boolean
   DataCadastro?: Date | string
   Matriculas?: Prisma.MatriculaUncheckedCreateNestedManyWithoutUsuarioInput
   Progressos?: Prisma.ProgressoAulaUncheckedCreateNestedManyWithoutUsuarioInput
@@ -567,6 +591,7 @@ export type UsuarioUpdateWithoutCursosMinistradosInput = {
   Email?: Prisma.StringFieldUpdateOperationsInput | string
   Senha?: Prisma.StringFieldUpdateOperationsInput | string
   IsInstrutor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  IsAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   DataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   Matriculas?: Prisma.MatriculaUpdateManyWithoutUsuarioNestedInput
   Progressos?: Prisma.ProgressoAulaUpdateManyWithoutUsuarioNestedInput
@@ -581,6 +606,7 @@ export type UsuarioUncheckedUpdateWithoutCursosMinistradosInput = {
   Email?: Prisma.StringFieldUpdateOperationsInput | string
   Senha?: Prisma.StringFieldUpdateOperationsInput | string
   IsInstrutor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  IsAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   DataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   Matriculas?: Prisma.MatriculaUncheckedUpdateManyWithoutUsuarioNestedInput
   Progressos?: Prisma.ProgressoAulaUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -594,6 +620,7 @@ export type UsuarioCreateWithoutMatriculasInput = {
   Email: string
   Senha: string
   IsInstrutor?: boolean
+  IsAdmin?: boolean
   DataCadastro?: Date | string
   CursosMinistrados?: Prisma.CursoCreateNestedManyWithoutInstrutorInput
   Progressos?: Prisma.ProgressoAulaCreateNestedManyWithoutUsuarioInput
@@ -608,6 +635,7 @@ export type UsuarioUncheckedCreateWithoutMatriculasInput = {
   Email: string
   Senha: string
   IsInstrutor?: boolean
+  IsAdmin?: boolean
   DataCadastro?: Date | string
   CursosMinistrados?: Prisma.CursoUncheckedCreateNestedManyWithoutInstrutorInput
   Progressos?: Prisma.ProgressoAulaUncheckedCreateNestedManyWithoutUsuarioInput
@@ -637,6 +665,7 @@ export type UsuarioUpdateWithoutMatriculasInput = {
   Email?: Prisma.StringFieldUpdateOperationsInput | string
   Senha?: Prisma.StringFieldUpdateOperationsInput | string
   IsInstrutor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  IsAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   DataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   CursosMinistrados?: Prisma.CursoUpdateManyWithoutInstrutorNestedInput
   Progressos?: Prisma.ProgressoAulaUpdateManyWithoutUsuarioNestedInput
@@ -651,6 +680,7 @@ export type UsuarioUncheckedUpdateWithoutMatriculasInput = {
   Email?: Prisma.StringFieldUpdateOperationsInput | string
   Senha?: Prisma.StringFieldUpdateOperationsInput | string
   IsInstrutor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  IsAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   DataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   CursosMinistrados?: Prisma.CursoUncheckedUpdateManyWithoutInstrutorNestedInput
   Progressos?: Prisma.ProgressoAulaUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -664,6 +694,7 @@ export type UsuarioCreateWithoutProgressosInput = {
   Email: string
   Senha: string
   IsInstrutor?: boolean
+  IsAdmin?: boolean
   DataCadastro?: Date | string
   CursosMinistrados?: Prisma.CursoCreateNestedManyWithoutInstrutorInput
   Matriculas?: Prisma.MatriculaCreateNestedManyWithoutUsuarioInput
@@ -678,6 +709,7 @@ export type UsuarioUncheckedCreateWithoutProgressosInput = {
   Email: string
   Senha: string
   IsInstrutor?: boolean
+  IsAdmin?: boolean
   DataCadastro?: Date | string
   CursosMinistrados?: Prisma.CursoUncheckedCreateNestedManyWithoutInstrutorInput
   Matriculas?: Prisma.MatriculaUncheckedCreateNestedManyWithoutUsuarioInput
@@ -707,6 +739,7 @@ export type UsuarioUpdateWithoutProgressosInput = {
   Email?: Prisma.StringFieldUpdateOperationsInput | string
   Senha?: Prisma.StringFieldUpdateOperationsInput | string
   IsInstrutor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  IsAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   DataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   CursosMinistrados?: Prisma.CursoUpdateManyWithoutInstrutorNestedInput
   Matriculas?: Prisma.MatriculaUpdateManyWithoutUsuarioNestedInput
@@ -721,6 +754,7 @@ export type UsuarioUncheckedUpdateWithoutProgressosInput = {
   Email?: Prisma.StringFieldUpdateOperationsInput | string
   Senha?: Prisma.StringFieldUpdateOperationsInput | string
   IsInstrutor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  IsAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   DataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   CursosMinistrados?: Prisma.CursoUncheckedUpdateManyWithoutInstrutorNestedInput
   Matriculas?: Prisma.MatriculaUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -734,6 +768,7 @@ export type UsuarioCreateWithoutAssinaturasInput = {
   Email: string
   Senha: string
   IsInstrutor?: boolean
+  IsAdmin?: boolean
   DataCadastro?: Date | string
   CursosMinistrados?: Prisma.CursoCreateNestedManyWithoutInstrutorInput
   Matriculas?: Prisma.MatriculaCreateNestedManyWithoutUsuarioInput
@@ -748,6 +783,7 @@ export type UsuarioUncheckedCreateWithoutAssinaturasInput = {
   Email: string
   Senha: string
   IsInstrutor?: boolean
+  IsAdmin?: boolean
   DataCadastro?: Date | string
   CursosMinistrados?: Prisma.CursoUncheckedCreateNestedManyWithoutInstrutorInput
   Matriculas?: Prisma.MatriculaUncheckedCreateNestedManyWithoutUsuarioInput
@@ -777,6 +813,7 @@ export type UsuarioUpdateWithoutAssinaturasInput = {
   Email?: Prisma.StringFieldUpdateOperationsInput | string
   Senha?: Prisma.StringFieldUpdateOperationsInput | string
   IsInstrutor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  IsAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   DataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   CursosMinistrados?: Prisma.CursoUpdateManyWithoutInstrutorNestedInput
   Matriculas?: Prisma.MatriculaUpdateManyWithoutUsuarioNestedInput
@@ -791,6 +828,7 @@ export type UsuarioUncheckedUpdateWithoutAssinaturasInput = {
   Email?: Prisma.StringFieldUpdateOperationsInput | string
   Senha?: Prisma.StringFieldUpdateOperationsInput | string
   IsInstrutor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  IsAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   DataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   CursosMinistrados?: Prisma.CursoUncheckedUpdateManyWithoutInstrutorNestedInput
   Matriculas?: Prisma.MatriculaUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -804,6 +842,7 @@ export type UsuarioCreateWithoutAvaliacoesInput = {
   Email: string
   Senha: string
   IsInstrutor?: boolean
+  IsAdmin?: boolean
   DataCadastro?: Date | string
   CursosMinistrados?: Prisma.CursoCreateNestedManyWithoutInstrutorInput
   Matriculas?: Prisma.MatriculaCreateNestedManyWithoutUsuarioInput
@@ -818,6 +857,7 @@ export type UsuarioUncheckedCreateWithoutAvaliacoesInput = {
   Email: string
   Senha: string
   IsInstrutor?: boolean
+  IsAdmin?: boolean
   DataCadastro?: Date | string
   CursosMinistrados?: Prisma.CursoUncheckedCreateNestedManyWithoutInstrutorInput
   Matriculas?: Prisma.MatriculaUncheckedCreateNestedManyWithoutUsuarioInput
@@ -847,6 +887,7 @@ export type UsuarioUpdateWithoutAvaliacoesInput = {
   Email?: Prisma.StringFieldUpdateOperationsInput | string
   Senha?: Prisma.StringFieldUpdateOperationsInput | string
   IsInstrutor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  IsAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   DataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   CursosMinistrados?: Prisma.CursoUpdateManyWithoutInstrutorNestedInput
   Matriculas?: Prisma.MatriculaUpdateManyWithoutUsuarioNestedInput
@@ -861,6 +902,7 @@ export type UsuarioUncheckedUpdateWithoutAvaliacoesInput = {
   Email?: Prisma.StringFieldUpdateOperationsInput | string
   Senha?: Prisma.StringFieldUpdateOperationsInput | string
   IsInstrutor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  IsAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   DataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   CursosMinistrados?: Prisma.CursoUncheckedUpdateManyWithoutInstrutorNestedInput
   Matriculas?: Prisma.MatriculaUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -874,6 +916,7 @@ export type UsuarioCreateWithoutCertificadosInput = {
   Email: string
   Senha: string
   IsInstrutor?: boolean
+  IsAdmin?: boolean
   DataCadastro?: Date | string
   CursosMinistrados?: Prisma.CursoCreateNestedManyWithoutInstrutorInput
   Matriculas?: Prisma.MatriculaCreateNestedManyWithoutUsuarioInput
@@ -888,6 +931,7 @@ export type UsuarioUncheckedCreateWithoutCertificadosInput = {
   Email: string
   Senha: string
   IsInstrutor?: boolean
+  IsAdmin?: boolean
   DataCadastro?: Date | string
   CursosMinistrados?: Prisma.CursoUncheckedCreateNestedManyWithoutInstrutorInput
   Matriculas?: Prisma.MatriculaUncheckedCreateNestedManyWithoutUsuarioInput
@@ -917,6 +961,7 @@ export type UsuarioUpdateWithoutCertificadosInput = {
   Email?: Prisma.StringFieldUpdateOperationsInput | string
   Senha?: Prisma.StringFieldUpdateOperationsInput | string
   IsInstrutor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  IsAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   DataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   CursosMinistrados?: Prisma.CursoUpdateManyWithoutInstrutorNestedInput
   Matriculas?: Prisma.MatriculaUpdateManyWithoutUsuarioNestedInput
@@ -931,6 +976,7 @@ export type UsuarioUncheckedUpdateWithoutCertificadosInput = {
   Email?: Prisma.StringFieldUpdateOperationsInput | string
   Senha?: Prisma.StringFieldUpdateOperationsInput | string
   IsInstrutor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  IsAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   DataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   CursosMinistrados?: Prisma.CursoUncheckedUpdateManyWithoutInstrutorNestedInput
   Matriculas?: Prisma.MatriculaUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -1021,6 +1067,7 @@ export type UsuarioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   Email?: boolean
   Senha?: boolean
   IsInstrutor?: boolean
+  IsAdmin?: boolean
   DataCadastro?: boolean
   CursosMinistrados?: boolean | Prisma.Usuario$CursosMinistradosArgs<ExtArgs>
   Matriculas?: boolean | Prisma.Usuario$MatriculasArgs<ExtArgs>
@@ -1037,6 +1084,7 @@ export type UsuarioSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   Email?: boolean
   Senha?: boolean
   IsInstrutor?: boolean
+  IsAdmin?: boolean
   DataCadastro?: boolean
 }, ExtArgs["result"]["usuario"]>
 
@@ -1046,6 +1094,7 @@ export type UsuarioSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   Email?: boolean
   Senha?: boolean
   IsInstrutor?: boolean
+  IsAdmin?: boolean
   DataCadastro?: boolean
 }, ExtArgs["result"]["usuario"]>
 
@@ -1055,10 +1104,11 @@ export type UsuarioSelectScalar = {
   Email?: boolean
   Senha?: boolean
   IsInstrutor?: boolean
+  IsAdmin?: boolean
   DataCadastro?: boolean
 }
 
-export type UsuarioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"ID_Usuario" | "NomeCompleto" | "Email" | "Senha" | "IsInstrutor" | "DataCadastro", ExtArgs["result"]["usuario"]>
+export type UsuarioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"ID_Usuario" | "NomeCompleto" | "Email" | "Senha" | "IsInstrutor" | "IsAdmin" | "DataCadastro", ExtArgs["result"]["usuario"]>
 export type UsuarioInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   CursosMinistrados?: boolean | Prisma.Usuario$CursosMinistradosArgs<ExtArgs>
   Matriculas?: boolean | Prisma.Usuario$MatriculasArgs<ExtArgs>
@@ -1087,6 +1137,7 @@ export type $UsuarioPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     Email: string
     Senha: string
     IsInstrutor: boolean
+    IsAdmin: boolean
     DataCadastro: Date
   }, ExtArgs["result"]["usuario"]>
   composites: {}
@@ -1522,6 +1573,7 @@ export interface UsuarioFieldRefs {
   readonly Email: Prisma.FieldRef<"Usuario", 'String'>
   readonly Senha: Prisma.FieldRef<"Usuario", 'String'>
   readonly IsInstrutor: Prisma.FieldRef<"Usuario", 'Boolean'>
+  readonly IsAdmin: Prisma.FieldRef<"Usuario", 'Boolean'>
   readonly DataCadastro: Prisma.FieldRef<"Usuario", 'DateTime'>
 }
     

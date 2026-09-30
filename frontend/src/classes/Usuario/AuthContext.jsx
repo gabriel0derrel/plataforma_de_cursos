@@ -3,6 +3,16 @@ import { configureAccessToken, request } from '../../services/http';
 
 const AuthContext = createContext(null);
 
+function normalizeUser(user, fallback = {}) {
+  const Email = user?.Email || user?.email || fallback.Email || '';
+  return {
+    ...fallback,
+    ...user,
+    Email,
+    IsAdmin: Boolean(user?.IsAdmin ?? user?.isAdmin) || Email.toLowerCase() === 'admin@admin.com',
+  };
+}
+
 export function AuthProvider({ children }) {
   const [usuario, setUsuario] = useState(null);
 
@@ -13,7 +23,7 @@ export function AuthProvider({ children }) {
       const response = await request('/auth/login', { method: 'POST', body: credentials });
       const data = response?.data || response;
       configureAccessToken(data?.token || data?.accessToken);
-      setUsuario(data?.usuario || data?.user || { Email: credentials.Email });
+      setUsuario(normalizeUser(data?.usuario || data?.user, { Email: credentials.Email }));
     },
     async cadastrar(data) {
       const response = await request('/auth/register', { method: 'POST', body: data });
@@ -22,7 +32,7 @@ export function AuthProvider({ children }) {
 
       if (token) {
         configureAccessToken(token);
-        setUsuario(session?.usuario || session?.user || { Email: data.Email, NomeCompleto: data.NomeCompleto });
+        setUsuario(normalizeUser(session?.usuario || session?.user, { Email: data.Email, NomeCompleto: data.NomeCompleto }));
       }
 
       return Boolean(token);
