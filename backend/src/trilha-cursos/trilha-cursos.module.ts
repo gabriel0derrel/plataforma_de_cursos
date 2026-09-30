@@ -1,0 +1,1 @@
+import { Module } from '@nestjs/common'; import { TrilhaCursosController } from './trilha-cursos.controller'; import { TrilhaCursosService } from './trilha-cursos.service'; @Module({ controllers: [TrilhaCursosController], providers: [TrilhaCursosService] }) export class TrilhaCursosModule {}

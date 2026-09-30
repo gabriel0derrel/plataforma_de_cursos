@@ -1,0 +1,1 @@
+import { Type } from 'class-transformer'; import { IsDate, IsIn, IsInt, IsOptional } from 'class-validator'; export class CreateProgressoAulaDto { @Type(() => Number) @IsInt() ID_Usuario!: number; @Type(() => Number) @IsInt() ID_Aula!: number; @IsIn(['Concluida', 'Em andamento']) Status!: string; @IsOptional() @Type(() => Date) @IsDate() DataConclusao?: Date | null; }

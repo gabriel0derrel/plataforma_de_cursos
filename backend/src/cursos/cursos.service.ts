@@ -1,0 +1,1 @@
+import { Injectable } from '@nestjs/common'; import { CrudService } from '../common/crud.service'; import { PrismaService } from '../prisma/prisma.service'; @Injectable() export class CursosService extends CrudService { constructor(prisma: PrismaService) { super(prisma, 'curso', 'ID_Curso'); } }

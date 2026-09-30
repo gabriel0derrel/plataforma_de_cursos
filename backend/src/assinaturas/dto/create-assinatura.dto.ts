@@ -1,0 +1,1 @@
+import { Type } from 'class-transformer'; import { IsDate, IsInt } from 'class-validator'; export class CreateAssinaturaDto { @Type(() => Number) @IsInt() ID_Usuario!: number; @Type(() => Number) @IsInt() ID_Plano!: number; @Type(() => Date) @IsDate() DataInicio!: Date; @Type(() => Date) @IsDate() DataFim!: Date; }

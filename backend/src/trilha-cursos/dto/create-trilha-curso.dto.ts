@@ -1,0 +1,1 @@
+import { Type } from 'class-transformer'; import { IsInt, Min } from 'class-validator'; export class CreateTrilhaCursoDto { @Type(() => Number) @IsInt() ID_Trilha!: number; @Type(() => Number) @IsInt() ID_Curso!: number; @Type(() => Number) @IsInt() @Min(1) Ordem!: number; }

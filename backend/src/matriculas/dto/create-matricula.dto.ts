@@ -1,0 +1,1 @@
+import { Type } from 'class-transformer'; import { IsDate, IsInt } from 'class-validator'; export class CreateMatriculaDto { @Type(() => Number) @IsInt() ID_Usuario!: number; @Type(() => Number) @IsInt() ID_Curso!: number; @Type(() => Date) @IsDate() DataMatricula!: Date; }

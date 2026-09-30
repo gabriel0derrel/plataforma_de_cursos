@@ -1,0 +1,1 @@
+import { Type } from 'class-transformer'; import { IsInt, IsString, Min } from 'class-validator'; export class CreateModuloDto { @Type(() => Number) @IsInt() ID_Curso!: number; @IsString() Titulo!: string; @Type(() => Number) @IsInt() @Min(1) Ordem!: number; }

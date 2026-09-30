@@ -7,3 +7,163 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Usuario {
+  ID_Usuario Int @id @default(autoincrement())
+  NomeCompleto String
+  Email String @unique
+  Senha String
+  IsInstrutor Boolean @default(false)
+  DataCadastro DateTime @default(now())
+  CursosMinistrados Curso[] @relation("InstrutorCursos")
+  Matriculas Matricula[]
+  Progressos ProgressoAula[]
+  Assinaturas Assinatura[]
+  Avaliacoes Avaliacao[]
+  Certificados Certificado[]
+}
+
+model Categoria {
+  ID_Categoria Int @id @default(autoincrement())
+  Nome String @unique
+  Descricao String?
+  Cursos Curso[]
+  Trilhas Trilha[]
+}
+
+model Plano {
+  ID_Plano Int @id @default(autoincrement())
+  Nome String @unique
+  Descricao String?
+  Preco Decimal @db.Decimal(10, 2)
+  DuracaoMeses Int
+  Assinaturas Assinatura[]
+}
+
+model Trilha {
+  ID_Trilha Int @id @default(autoincrement())
+  Titulo String
+  Descricao String
+  ID_Categoria Int?
+  Categoria Categoria? @relation(fields: [ID_Categoria], references: [ID_Categoria])
+  Cursos TrilhaCurso[]
+  Certificados Certificado[]
+}
+
+model Curso {
+  ID_Curso Int @id @default(autoincrement())
+  Titulo String
+  Descricao String
+  ID_Instrutor Int
+  ID_Categoria Int
+  Nivel String
+  DataPublicacao DateTime
+  TotalAulas Int @default(0)
+  TotalHoras Int @default(0)
+  Instrutor Usuario @relation("InstrutorCursos", fields: [ID_Instrutor], references: [ID_Usuario])
+  Categoria Categoria @relation(fields: [ID_Categoria], references: [ID_Categoria])
+  Modulos Modulo[]
+  Matriculas Matricula[]
+  Avaliacoes Avaliacao[]
+  Certificados Certificado[]
+  Trilhas TrilhaCurso[]
+}
+
+model Modulo {
+  ID_Modulo Int @id @default(autoincrement())
+  ID_Curso Int
+  Titulo String
+  Ordem Int
+  Curso Curso @relation(fields: [ID_Curso], references: [ID_Curso], onDelete: Cascade)
+  Aulas Aula[]
+  @@unique([ID_Curso, Ordem])
+}
+
+model Aula {
+  ID_Aula Int @id @default(autoincrement())
+  ID_Modulo Int
+  Titulo String
+  TipoConteudo String
+  URL_Conteudo String?
+  DuracaoMinutos Int
+  Ordem Int
+  Modulo Modulo @relation(fields: [ID_Modulo], references: [ID_Modulo], onDelete: Cascade)
+  Progressos ProgressoAula[]
+  @@unique([ID_Modulo, Ordem])
+}
+
+model Matricula {
+  ID_Matricula Int @id @default(autoincrement())
+  ID_Usuario Int
+  ID_Curso Int
+  DataMatricula DateTime
+  DataConclusao DateTime?
+  Usuario Usuario @relation(fields: [ID_Usuario], references: [ID_Usuario], onDelete: Cascade)
+  Curso Curso @relation(fields: [ID_Curso], references: [ID_Curso], onDelete: Cascade)
+  @@unique([ID_Usuario, ID_Curso])
+}
+
+model ProgressoAula {
+  ID_Usuario Int
+  ID_Aula Int
+  Status String
+  DataConclusao DateTime?
+  Usuario Usuario @relation(fields: [ID_Usuario], references: [ID_Usuario], onDelete: Cascade)
+  Aula Aula @relation(fields: [ID_Aula], references: [ID_Aula], onDelete: Cascade)
+  @@id([ID_Usuario, ID_Aula])
+}
+
+model Assinatura {
+  ID_Assinatura Int @id @default(autoincrement())
+  ID_Usuario Int
+  ID_Plano Int
+  DataInicio DateTime
+  DataFim DateTime
+  Usuario Usuario @relation(fields: [ID_Usuario], references: [ID_Usuario], onDelete: Cascade)
+  Plano Plano @relation(fields: [ID_Plano], references: [ID_Plano])
+  Pagamentos Pagamento[]
+}
+
+model Pagamento {
+  ID_Pagamento Int @id @default(autoincrement())
+  ID_Assinatura Int
+  ValorPago Decimal @db.Decimal(10, 2)
+  MetodoPagamento String
+  DataPagamento DateTime
+  Id_Transacao_Gateway String @unique
+  Assinatura Assinatura @relation(fields: [ID_Assinatura], references: [ID_Assinatura], onDelete: Cascade)
+}
+
+model Avaliacao {
+  ID_Avaliacao Int @id @default(autoincrement())
+  ID_Usuario Int
+  ID_Curso Int
+  Nota Int
+  Comentario String?
+  DataAvaliacao DateTime
+  Usuario Usuario @relation(fields: [ID_Usuario], references: [ID_Usuario], onDelete: Cascade)
+  Curso Curso @relation(fields: [ID_Curso], references: [ID_Curso], onDelete: Cascade)
+  @@unique([ID_Usuario, ID_Curso])
+}
+
+model Certificado {
+  ID_Certificado Int @id @default(autoincrement())
+  ID_Usuario Int
+  ID_Curso Int
+  ID_Trilha Int?
+  CodigoVerificacao String @unique
+  DataEmissao DateTime
+  Usuario Usuario @relation(fields: [ID_Usuario], references: [ID_Usuario], onDelete: Cascade)
+  Curso Curso @relation(fields: [ID_Curso], references: [ID_Curso], onDelete: Cascade)
+  Trilha Trilha? @relation(fields: [ID_Trilha], references: [ID_Trilha])
+}
+
+model TrilhaCurso {
+  ID_Trilha Int
+  ID_Curso Int
+  Ordem Int
+  Trilha Trilha @relation(fields: [ID_Trilha], references: [ID_Trilha], onDelete: Cascade)
+  Curso Curso @relation(fields: [ID_Curso], references: [ID_Curso], onDelete: Cascade)
+  @@id([ID_Trilha, ID_Curso])
+  @@unique([ID_Trilha, Ordem])
+}

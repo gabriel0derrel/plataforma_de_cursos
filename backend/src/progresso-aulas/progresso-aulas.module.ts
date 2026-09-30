@@ -1,0 +1,1 @@
+import { Module } from '@nestjs/common'; import { ProgressoAulasController } from './progresso-aulas.controller'; import { ProgressoAulasService } from './progresso-aulas.service'; @Module({ controllers: [ProgressoAulasController], providers: [ProgressoAulasService] }) export class ProgressoAulasModule {}

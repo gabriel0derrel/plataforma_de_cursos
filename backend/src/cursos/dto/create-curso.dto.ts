@@ -1,0 +1,2 @@
+import { Type } from 'class-transformer'; import { IsDate, IsIn, IsInt, IsString, Min } from 'class-validator';
+export class CreateCursoDto { @IsString() Titulo!: string; @IsString() Descricao!: string; @Type(() => Number) @IsInt() ID_Instrutor!: number; @Type(() => Number) @IsInt() ID_Categoria!: number; @IsIn(['Iniciante', 'Intermediario', 'Avancado']) Nivel!: string; @Type(() => Date) @IsDate() DataPublicacao!: Date; @Type(() => Number) @IsInt() @Min(0) TotalAulas!: number; @Type(() => Number) @IsInt() @Min(0) TotalHoras!: number; }
