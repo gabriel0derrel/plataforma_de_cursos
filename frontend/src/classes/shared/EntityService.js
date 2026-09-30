@@ -18,6 +18,10 @@ export class EntityService {
     });
   }
 
+  buscar(id) {
+    return request(this.endpoint + '/' + id).then((data) => new this.Model(data));
+  }
+
   atualizar(id, data) {
     return request(this.endpoint + '/' + id, {
       method: 'PATCH',

@@ -1,6 +1,6 @@
-import { ArrowLeft, Plus, RefreshCw, Save } from 'lucide-react';
+import { ArrowLeft, Pencil, Plus, RefreshCw, Save } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
-import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../classes/Usuario/AuthContext';
 import { formatCurrency, formatDate } from '../utils/formatters';
 
@@ -73,6 +73,9 @@ export function EntityList({ config }) {
 
   const canManage = Boolean(usuario?.IsAdmin) || usuario?.Email?.toLowerCase() === 'admin@admin.com';
   const canToggleInstructor = canManage && config.key === 'usuarios';
+  const canEditContent = canManage && config.key !== 'usuarios';
+  const visibleColumns = config.columns.filter((column) => !column.toLowerCase().startsWith('id_'));
+  const entityId = (item) => Object.entries(item).find(([key]) => /^ID_[A-Za-z]+$/.test(key))?.[1];
 
   return (
     <section className="page">
@@ -85,15 +88,16 @@ export function EntityList({ config }) {
         {loading && <p className="loading-text">Carregando dados...</p>}
         {!loading && error && <div className="empty-state"><Icon size={31} /><p>{error}</p><button className="icon-button" type="button" onClick={load} aria-label="Tentar novamente" title="Tentar novamente"><RefreshCw size={18} /></button></div>}
         {!loading && !error && items.length === 0 && <div className="empty-state"><Icon size={31} /><p>Nenhum registro cadastrado.</p></div>}
-        {!loading && !error && items.length > 0 && <div className="table-scroll"><table><thead><tr>{config.columns.map((column) => <th key={column}>{formatLabel(column)}</th>)}{canToggleInstructor && <th>Acoes</th>}</tr></thead><tbody>{items.map((item, index) => <tr key={item.ID || item[config.columns[0]] || index}>{config.columns.map((column) => <td key={column}>{formatValue(column, item[column])}</td>)}{canToggleInstructor && <td><button className="button secondary" type="button" onClick={() => toggleInstructor(item)}>{item.IsInstrutor ? 'Remover instrutor' : 'Tornar instrutor'}</button></td>}</tr>)}</tbody></table></div>}
+        {!loading && !error && items.length > 0 && <div className="table-scroll"><table><thead><tr>{visibleColumns.map((column) => <th key={column}>{formatLabel(column)}</th>)}{(canToggleInstructor || canEditContent) && <th>Acoes</th>}</tr></thead><tbody>{items.map((item, index) => <tr key={entityId(item) || index}>{visibleColumns.map((column) => <td key={column}>{formatValue(column, item[column])}</td>)}{(canToggleInstructor || canEditContent) && <td>{canEditContent && <Link className="button secondary" to={config.route + '/' + entityId(item) + '/editar'}><Pencil size={15} />Editar</Link>}{canToggleInstructor && <button className="button secondary" type="button" onClick={() => toggleInstructor(item)}>{item.IsInstrutor ? 'Remover instrutor' : 'Tornar instrutor'}</button>}</td>}</tr>)}</tbody></table></div>}
       </div>
     </section>
   );
 }
 
-export function EntityForm({ config }) {
+export function EntityForm({ config, edit = false }) {
   const { usuario } = useAuth();
   const navigate = useNavigate();
+  const { id } = useParams();
   const [form, setForm] = useState({});
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -102,13 +106,26 @@ export function EntityForm({ config }) {
     setForm((current) => ({ ...current, [name]: value }));
   }
 
+  useEffect(() => {
+    if (!edit) return;
+    config.service.buscar(id).then((item) => {
+      const values = Object.fromEntries(config.fields.map((field) => {
+        const value = item[field.name];
+        return [field.name, field.type === 'date' && value ? String(value).slice(0, 10) : value];
+      }));
+      setForm(values);
+    }).catch((requestError) => setError(requestError.message));
+  }, [config, edit, id]);
+
   async function submit(event) {
     event.preventDefault();
     setLoading(true);
     setError('');
     try {
-      await config.service.criar(form);
-      navigate(config.route, { state: { notice: config.singular + ' cadastrado com sucesso.' } });
+      const payload = new config.Model(form).toPayload();
+      if (edit) await config.service.atualizar(id, payload);
+      else await config.service.criar(form);
+      navigate(config.route, { state: { notice: config.singular + (edit ? ' atualizado com sucesso.' : ' cadastrado com sucesso.') } });
     } catch (requestError) {
       setError(requestError.message);
     } finally {
@@ -122,7 +139,7 @@ export function EntityForm({ config }) {
   return (
     <section className="page narrow-page">
       <header className="page-heading">
-        <div><p className="eyebrow">{config.plural}</p><h1>Novo {config.singular.toLowerCase()}</h1></div>
+        <div><p className="eyebrow">{config.plural}</p><h1>{edit ? 'Editar ' : 'Novo '}{config.singular.toLowerCase()}</h1></div>
         <Link className="button secondary" to={config.route}><ArrowLeft size={18} />Voltar</Link>
       </header>
       <form className="panel form-panel" onSubmit={submit}>

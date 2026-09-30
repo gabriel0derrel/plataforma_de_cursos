@@ -30,7 +30,7 @@
   "scripts": {
     "postinstall": "prisma skills sync || exit 0",
     "build": "nest build",
-    "start": "nest start",
+    "start": "npm run build && node dist/main",
     "start:dev": "nest start --watch",
     "prisma:generate": "prisma generate"
   }

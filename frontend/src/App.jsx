@@ -11,6 +11,7 @@ export default function App() {
         <Route index element={<Dashboard />} />
         {classConfigs.map((config) => <Route key={config.route} path={config.route} element={<EntityList config={configByRoute[config.route]} />} />)}
         {classConfigs.map((config) => <Route key={config.route + '-novo'} path={config.route + '/novo'} element={<EntityForm config={configByRoute[config.route]} />} />)}
+        {classConfigs.map((config) => <Route key={config.route + '-editar'} path={config.route + '/:id/editar'} element={<EntityForm config={configByRoute[config.route]} edit />} />)}
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
