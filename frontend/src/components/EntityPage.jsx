@@ -2,6 +2,7 @@ import { ArrowLeft, Pencil, Plus, RefreshCw, Save } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../classes/Usuario/AuthContext';
+import { referenceId, referenceLabel, referenceServices } from '../classes/shared/references';
 import { formatCurrency, formatDate } from '../utils/formatters';
 
 function formatLabel(name) {
@@ -16,7 +17,7 @@ function formatValue(name, value) {
   return String(value);
 }
 
-function Field({ field, value, onChange }) {
+function Field({ field, value, onChange, referenceItems = [] }) {
   if (field.type === 'checkbox') {
     return <label className="check-field"><input type="checkbox" checked={Boolean(value)} onChange={(event) => onChange(field.name, event.target.checked)} /><span>{field.label}</span></label>;
   }
@@ -33,8 +34,9 @@ function Field({ field, value, onChange }) {
   if (field.type === 'textarea') {
     return <label className="field field-full"><span>{field.label}</span><textarea rows="4" {...common} /></label>;
   }
-  if (field.type === 'select') {
-    return <label className="field"><span>{field.label}</span><select {...common}><option value="">Selecione</option>{field.options.map((option) => <option key={option} value={option}>{option}</option>)}</select></label>;
+  if (field.type === 'select' || field.reference) {
+    const options = field.reference ? referenceItems.map((item) => ({ value: referenceId(item), label: referenceLabel(field.reference, item) })) : field.options.map((option) => ({ value: option, label: option }));
+    return <label className="field"><span>{field.label}</span><select {...common}><option value="">{field.required ? 'Selecione' : 'Não informado'}</option>{options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select></label>;
   }
   return <label className="field"><span>{field.label}</span><input type={field.type} {...common} /></label>;
 }
@@ -99,6 +101,7 @@ export function EntityForm({ config, edit = false }) {
   const navigate = useNavigate();
   const { id } = useParams();
   const [form, setForm] = useState({});
+  const [references, setReferences] = useState({});
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -116,6 +119,14 @@ export function EntityForm({ config, edit = false }) {
       setForm(values);
     }).catch((requestError) => setError(requestError.message));
   }, [config, edit, id]);
+
+  useEffect(() => {
+    const keys = [...new Set(config.fields.map((field) => field.reference).filter(Boolean))];
+    if (!keys.length) return;
+    Promise.all(keys.map(async (key) => [key, await referenceServices[key].listar()])).then((entries) => {
+      setReferences(Object.fromEntries(entries));
+    }).catch((requestError) => setError(requestError.message));
+  }, [config]);
 
   async function submit(event) {
     event.preventDefault();
@@ -144,7 +155,7 @@ export function EntityForm({ config, edit = false }) {
       </header>
       <form className="panel form-panel" onSubmit={submit}>
         {error && <p className="form-error" role="alert">{error}</p>}
-        <div className="form-grid">{config.fields.map((field) => <Field key={field.name} field={field} value={form[field.name]} onChange={changeField} />)}</div>
+        <div className="form-grid">{config.fields.map((field) => <Field key={field.name} field={field} value={form[field.name]} onChange={changeField} referenceItems={(references[field.reference] || []).filter(field.referenceFilter || (() => true))} />)}</div>
         <div className="form-actions"><button className="button primary" type="submit" disabled={loading}><Save size={18} />{loading ? 'Salvando...' : 'Salvar'}</button></div>
       </form>
     </section>

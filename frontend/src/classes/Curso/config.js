@@ -6,7 +6,7 @@ export const cursoConfig = {
   columns: ['ID_Curso', 'Titulo', 'Nivel', 'ID_Instrutor', 'ID_Categoria', 'DataPublicacao'],
   fields: [
     { name: 'Titulo', label: 'Titulo', type: 'text', required: true }, { name: 'Descricao', label: 'Descricao', type: 'textarea', required: true },
-    { name: 'ID_Instrutor', label: 'ID do instrutor', type: 'number', required: true }, { name: 'ID_Categoria', label: 'ID da categoria', type: 'number', required: true },
+    { name: 'ID_Instrutor', label: 'Instrutor', reference: 'usuarios', referenceFilter: (user) => user.IsInstrutor, required: true }, { name: 'ID_Categoria', label: 'Categoria', reference: 'categorias', required: true },
     { name: 'Nivel', label: 'Nivel', type: 'select', required: true, options: ['Iniciante', 'Intermediario', 'Avancado'] }, { name: 'DataPublicacao', label: 'Data de publicacao', type: 'date', required: true },
     { name: 'TotalAulas', label: 'Total de aulas', type: 'number', min: 0 }, { name: 'TotalHoras', label: 'Total de horas', type: 'number', min: 0 },
   ],

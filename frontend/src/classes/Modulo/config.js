@@ -4,5 +4,5 @@ import { moduloService } from './moduloService';
 export const moduloConfig = {
   key: 'modulos', route: '/modulos', singular: 'Modulo', plural: 'Modulos', public: true, icon: PanelsTopLeft, Model: Modulo, service: moduloService,
   columns: ['ID_Modulo', 'Titulo', 'ID_Curso', 'Ordem'],
-  fields: [{ name: 'Titulo', label: 'Titulo', type: 'text', required: true }, { name: 'ID_Curso', label: 'ID do curso', type: 'number', required: true }, { name: 'Ordem', label: 'Ordem', type: 'number', min: 1, required: true }],
+  fields: [{ name: 'Titulo', label: 'Titulo', type: 'text', required: true }, { name: 'ID_Curso', label: 'Curso', reference: 'cursos', required: true }, { name: 'Ordem', label: 'Ordem', type: 'number', min: 1, required: true }],
 };
