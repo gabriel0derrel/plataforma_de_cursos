@@ -1,1 +1,19 @@
-import { Controller, UseGuards } from '@nestjs/common'; import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'; import { AuthGuard } from '@nestjs/passport'; import { CrudController } from '../common/crud.controller'; import { AssinaturasService } from './assinaturas.service'; import { CreateAssinaturaDto } from './dto/create-assinatura.dto'; import { UpdateAssinaturaDto } from './dto/update-assinatura.dto'; @ApiTags('assinaturas') @ApiBearerAuth('token') @UseGuards(AuthGuard('jwt')) @Controller('assinaturas') export class AssinaturasController extends CrudController<CreateAssinaturaDto, UpdateAssinaturaDto> { constructor(service: AssinaturasService) { super(service); } }
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AdminGuard } from '../auth/admin.guard';
+import { AssinaturasService } from './assinaturas.service';
+
+@ApiTags('assinaturas')
+@ApiBearerAuth('token')
+@UseGuards(AuthGuard('jwt'), AdminGuard)
+@Controller('assinaturas')
+export class AssinaturasController {
+  constructor(private readonly service: AssinaturasService) {}
+
+  @Get()
+  findAll() { return this.service.findAll(); }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) { return this.service.findOne(+id); }
+}

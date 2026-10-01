@@ -1,29 +1,19 @@
-import { Controller, UseGuards, Post, Body, Patch, Param } from '@nestjs/common'; 
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'; 
-import { AuthGuard } from '@nestjs/passport'; 
-import { CrudController } from '../common/crud.controller'; 
-import { MatriculasService } from './matriculas.service'; 
-import { CreateMatriculaDto } from './dto/create-matricula.dto'; 
-import { UpdateMatriculaDto } from './dto/update-matricula.dto'; 
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AdminGuard } from '../auth/admin.guard';
+import { MatriculasService } from './matriculas.service';
 
-@ApiTags('matriculas') 
-@ApiBearerAuth('token') 
-@UseGuards(AuthGuard('jwt')) 
-@Controller('matriculas') 
-export class MatriculasController extends CrudController<CreateMatriculaDto, UpdateMatriculaDto> { 
-  constructor(service: MatriculasService) { 
-    super(service); 
-  } 
+@ApiTags('matriculas')
+@ApiBearerAuth('token')
+@UseGuards(AuthGuard('jwt'), AdminGuard)
+@Controller('matriculas')
+export class MatriculasController {
+  constructor(private readonly service: MatriculasService) {}
 
-  // Sobrescrevemos o método de criação para forçar a tipagem do DTO
-  @Post()
-  async create(@Body() data: CreateMatriculaDto) {
-    return super.create(data);
-  }
+  @Get()
+  findAll() { return this.service.findAll(); }
 
-  // É recomendável fazer o mesmo para o update, se você usar PATCH/PUT
-  @Patch(':id')
-  async update(@Param('id') id: string, @Body() data: UpdateMatriculaDto) {
-    return super.update(id, data);
-  }
+  @Get(':id')
+  findOne(@Param('id') id: string) { return this.service.findOne(+id); }
 }

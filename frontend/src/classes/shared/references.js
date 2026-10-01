@@ -19,6 +19,7 @@ export const referenceServices = {
 };
 
 export function referenceLabel(reference, item) {
+  if (!item) return '-';
   const labels = {
     assinaturas: item.DataInicio ? `Assinatura iniciada em ${new Date(item.DataInicio).toLocaleDateString('pt-BR')}` : 'Assinatura',
     aulas: item.Titulo,
