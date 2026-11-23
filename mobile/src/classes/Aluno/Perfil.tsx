@@ -14,7 +14,7 @@ export function PerfilPage({ usuario, onSair, onAbrir }: { usuario: Usuario | nu
     <View style={styles.cabecalho}><View style={styles.avatar}><Text style={styles.avatarTexto}>{iniciais}</Text></View><Text style={styles.nome}>{usuario?.nome}</Text><Text style={styles.email}>{usuario?.email}</Text></View>
     <Text style={styles.secao}>Minha área</Text>
     {opcoes.map((opcao) => <TouchableOpacity key={opcao.pagina} style={styles.opcao} onPress={() => onAbrir(opcao.pagina)}><Ionicons name={opcao.icone} size={22} color={cores.primaria} /><Text style={styles.opcaoTexto}>{opcao.pagina}</Text><Ionicons name="chevron-forward" size={20} color={cores.textoSuave} /></TouchableOpacity>)}
-    <View style={styles.infoCard}><Text style={styles.infoRotulo}>TIPO DE CONTA</Text><Text style={styles.infoValor}>Aluno</Text><Text style={styles.infoDescricao}>A administração da plataforma é realizada somente pela versão web.</Text></View>
+    
     <TouchableOpacity style={styles.botaoSair} onPress={onSair}><Ionicons name="log-out-outline" size={20} color={cores.branco} /><Text style={styles.botaoSairTexto}>SAIR DA CONTA</Text></TouchableOpacity>
   </>;
 }

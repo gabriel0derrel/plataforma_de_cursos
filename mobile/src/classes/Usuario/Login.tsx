@@ -3,7 +3,6 @@ import {
   View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView,
   KeyboardAvoidingView, Platform,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { cores } from '../../styles/theme';
 import type { RootStackParamList } from '../../navigation/types';
@@ -34,13 +33,9 @@ export default function Login({ navigation }: Props) {
       <View style={styles.tela}>
         {/* BLOCO 1: cabeçalho fixo */}
         <View style={styles.cabecalho}>
-          <TouchableOpacity disabled style={styles.setaDesabilitada}>
-            <Ionicons name="chevron-back" size={24} color={cores.textoSuave} />
-          </TouchableOpacity>
+          <View style={styles.espacoSeta} />
           <Text style={styles.tituloBarra}>Trek HyperLessons</Text>
-          <TouchableOpacity disabled style={styles.setaDesabilitada}>
-            <Ionicons name="chevron-forward" size={24} color={cores.textoSuave} />
-          </TouchableOpacity>
+          <View style={styles.espacoSeta} />
         </View>
 
         {/* BLOCO 2: conteúdo rolável */}
@@ -111,7 +106,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: cores.primaria,
   },
-  setaDesabilitada: { width: 40, alignItems: 'center' },
+  espacoSeta: { width: 40 },
   tituloBarra: { color: cores.primaria, fontSize: 15, fontWeight: 'bold' },
   scroll: { flex: 1, width: '100%', maxWidth: 720, alignSelf: 'center' },
   conteudo: {
