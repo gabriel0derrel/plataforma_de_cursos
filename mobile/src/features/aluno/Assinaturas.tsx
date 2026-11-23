@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { planoService, type Plano } from '../Plano/planoService';
-import { alunoService, type Assinatura } from './alunoService';
-import { cores } from '../../styles/theme';
+import { planoService, type Plano } from './planosApi';
+import { alunoService, type Assinatura } from './alunoApi';
+import { cores } from '../../colors';
 
 export function AssinaturasPage() {
   const [planos, setPlanos] = useState<Plano[]>([]); const [assinaturas, setAssinaturas] = useState<Assinatura[]>([]); const [erro, setErro] = useState(''); const [carregando, setCarregando] = useState(true);

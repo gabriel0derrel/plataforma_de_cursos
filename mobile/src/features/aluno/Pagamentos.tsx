@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { alunoService, type Assinatura, type Pagamento } from './alunoService';
-import { cores } from '../../styles/theme';
+import { alunoService, type Assinatura, type Pagamento } from './alunoApi';
+import { cores } from '../../colors';
 
 const metodos = ['Pix', 'Cartao de credito', 'Boleto'];
 

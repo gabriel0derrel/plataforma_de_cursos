@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "meu-app",
-    "slug": "meu-app",
+    "name": "Trek HyperLessons",
+    "slug": "Trek HyperLessons",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

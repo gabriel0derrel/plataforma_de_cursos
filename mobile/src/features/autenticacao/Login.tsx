@@ -4,8 +4,8 @@ import {
   KeyboardAvoidingView, Platform,
 } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { cores } from '../../styles/theme';
-import type { RootStackParamList } from '../../navigation/types';
+import { cores } from '../../colors';
+import type { RootStackParamList } from '../../navigation/navigationTypes';
 import { useUser } from './AuthContext';
 
 // Props recebidas automaticamente: navigation e route, já tipadas para a tela "Login"

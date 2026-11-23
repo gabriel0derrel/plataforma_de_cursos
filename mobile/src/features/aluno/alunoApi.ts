@@ -1,4 +1,4 @@
-import { request } from '../../services/http';
+import { request } from '../../api';
 
 export interface Matricula { ID_Matricula: number; ID_Curso: number; DataMatricula: string; DataConclusao: string | null; Curso: { Titulo: string; Nivel: string }; }
 export interface Progresso { ID_Aula: number; Curso: string; Modulo: string; Aula: string; Status: 'Concluida' | 'Em andamento'; DataConclusao: string | null; }

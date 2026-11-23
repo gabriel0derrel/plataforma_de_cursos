@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import type { Curso } from './Curso';
-import { cores } from '../../styles/theme';
+import { cores } from '../../colors';
 
 export function CursoCard({ curso }: { curso: Curso }) {
   return <View style={styles.card}>

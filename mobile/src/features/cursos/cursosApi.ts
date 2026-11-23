@@ -1,4 +1,4 @@
-import { request } from '../../services/http';
+import { request } from '../../api';
 import type { Curso } from './Curso';
 
 export const cursoService = {

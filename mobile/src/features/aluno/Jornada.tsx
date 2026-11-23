@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { alunoService, type Matricula, type Progresso } from './alunoService';
-import { cores } from '../../styles/theme';
+import { alunoService, type Matricula, type Progresso } from './alunoApi';
+import { cores } from '../../colors';
 
 export function JornadaPage({ onSelecionarCurso }: { onSelecionarCurso: (curso: string) => void }) {
   const [matriculas, setMatriculas] = useState<Matricula[]>([]);

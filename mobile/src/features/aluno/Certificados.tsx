@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { alunoService, type Certificado, type Matricula } from './alunoService';
-import { cores } from '../../styles/theme';
+import { alunoService, type Certificado, type Matricula } from './alunoApi';
+import { cores } from '../../colors';
 
 export function CertificadosPage() {
   const [certificados, setCertificados] = useState<Certificado[]>([]);

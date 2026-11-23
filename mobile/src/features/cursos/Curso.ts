@@ -7,8 +7,7 @@ export interface Curso {
   TotalHoras: number;
 }
 
-// Espelha a classe de domínio do frontend. Quando a API for ligada ao mobile,
-// estes campos serão preenchidos a partir de /cursos.
+// Modelo dos cursos recebidos da API.
 export class CursoModel implements Curso {
   ID_Curso = 0;
   Titulo = '';

@@ -1,6 +1,6 @@
 import { createContext, useContext, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
-import { configureAccessToken, request } from '../../services/http';
+import { configureAccessToken, request } from '../../api';
 
 export interface Usuario { id: number; nome: string; email: string; }
 

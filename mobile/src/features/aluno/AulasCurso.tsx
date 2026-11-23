@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { alunoService, type Progresso } from './alunoService';
-import { cores } from '../../styles/theme';
+import { alunoService, type Progresso } from './alunoApi';
+import { cores } from '../../colors';
 
 export function AulasCursoPage({ curso }: { curso: string }) {
   const [aulas, setAulas] = useState<Progresso[]>([]);

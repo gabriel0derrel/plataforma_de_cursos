@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import type { Curso } from '../Curso/Curso';
-import { CursoCard } from '../Curso/CursoCard';
-import { cursoService } from '../Curso/cursoService';
-import { alunoService, type Matricula } from './alunoService';
-import { cores } from '../../styles/theme';
+import type { Curso } from '../cursos/Curso';
+import { CursoCard } from '../cursos/CursoCard';
+import { cursoService } from '../cursos/cursosApi';
+import { alunoService, type Matricula } from './alunoApi';
+import { cores } from '../../colors';
 
 export function CursosPage() {
   const [cursos, setCursos] = useState<Curso[]>([]);

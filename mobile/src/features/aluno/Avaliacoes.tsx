@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { alunoService, type Avaliacao, type Matricula } from './alunoService';
-import { cores } from '../../styles/theme';
+import { alunoService, type Avaliacao, type Matricula } from './alunoApi';
+import { cores } from '../../colors';
 
 export function AvaliacoesPage() {
   const [avaliacoes, setAvaliacoes] = useState<Avaliacao[]>([]);

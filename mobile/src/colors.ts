@@ -1,4 +1,4 @@
-// Paleta LCARS (mesmas cores do global.css), em hexadecimal completo
+// Paleta LCARS compartilhada por toda a interface.
 const lcars = {
   preto: '#000000',
   cinza: '#223344', // --lcars-gray (#234)

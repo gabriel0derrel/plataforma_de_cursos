@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { cores } from '../../styles/theme';
-import type { RootStackParamList } from '../../navigation/types';
+import { cores } from '../../colors';
+import type { RootStackParamList } from '../../navigation/navigationTypes';
 import { useUser } from './AuthContext';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Registro'>;

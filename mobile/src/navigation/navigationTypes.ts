@@ -1,4 +1,4 @@
-// Parâmetros de cada tela da pilha principal
+// Parâmetros de cada tela da pilha principal.
 export type RootStackParamList = {
   Login: undefined;
   Registro: undefined;

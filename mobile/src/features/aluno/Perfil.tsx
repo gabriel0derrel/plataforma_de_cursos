@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import type { Usuario } from '../Usuario/AuthContext';
-import { cores } from '../../styles/theme';
+import type { Usuario } from '../autenticacao/AuthContext';
+import { cores } from '../../colors';
 
 export type PaginaAluno = 'Avaliações' | 'Certificados' | 'Assinaturas' | 'Pagamentos' | 'Minha conta';
 

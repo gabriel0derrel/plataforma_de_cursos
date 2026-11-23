@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
-import { alunoService } from './alunoService';
-import { cores } from '../../styles/theme';
+import { alunoService } from './alunoApi';
+import { cores } from '../../colors';
 
 export function ContaPage() {
   const [nome, setNome] = useState(''); const [email, setEmail] = useState(''); const [senha, setSenha] = useState(''); const [erro, setErro] = useState(''); const [aviso, setAviso] = useState(''); const [carregando, setCarregando] = useState(true);

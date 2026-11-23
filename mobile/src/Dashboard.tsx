@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { alunoService, type Matricula, type Progresso } from '../classes/Aluno/alunoService';
-import { cores } from '../styles/theme';
+import { alunoService, type Matricula, type Progresso } from './features/aluno/alunoApi';
+import { cores } from './colors';
 
 export function Dashboard({ nome, onContinuar }: { nome: string; onContinuar: () => void }) {
   const [matriculas, setMatriculas] = useState<Matricula[]>([]);
