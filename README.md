@@ -40,6 +40,37 @@ Caso a API esteja em outro endereço, crie `frontend/.env` com:
 VITE_API_URL=http://localhost:8080/api
 ```
 
+## Rodar o mobile com Expo Go
+
+O aplicativo mobile está na pasta `mobile` e pode ser aberto no celular pelo **Expo Go**.
+
+1. Instale o aplicativo Expo Go no Android (Google Play) ou no iOS (App Store).
+2. Deixe o computador e o celular na mesma rede Wi-Fi.
+3. Crie `mobile/.env` a partir de `mobile/.env.example` e substitua o IP pelo endereço local do computador que executa a API. Não use `localhost`, pois no celular ele aponta para o próprio dispositivo:
+
+```env
+EXPO_PUBLIC_API_URL=http://192.168.0.10:8080/api
+```
+
+4. Em um novo terminal, execute:
+
+```bash
+cd mobile
+npm install
+npx expo start
+```
+
+5. Após o Metro Bundler exibir o QR Code, abra o Expo Go e faça a leitura do código. No iOS, também é possível ler o QR Code com o aplicativo Câmera e escolher abrir no Expo Go.
+
+O app será carregado no celular e atualizado automaticamente ao salvar alterações. Para encerrar o servidor, pressione `Ctrl + C` no terminal.
+
+Se a rede impedir a conexão entre celular e computador, inicie o Expo usando um túnel:
+
+```bash
+cd mobile
+npx expo start --tunnel
+```
+
 ## Swagger
 
 Com a API em execução, acesse `http://localhost:8080/api/docs`.
