@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Trek HyperLessons",
-    "slug": "Trek HyperLessons",
+    "slug": "TrekHyperLessons",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,10 +16,17 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.gabriel0derrel.TrekHyperLessons"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9527ce5c-fe61-48bf-ae2d-188c4f95a77a"
+      }
+    },
+    "owner": "gabriel0derrel"
   }
 }

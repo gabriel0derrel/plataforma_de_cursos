@@ -2,11 +2,12 @@ import { BadRequestException, ConflictException, ForbiddenException, Injectable,
 import * as bcrypt from 'bcrypt';
 import { randomUUID } from 'crypto';
 import { PrismaService } from '../prisma/prisma.service';
+import { NotificacoesService } from '../notificacoes/notificacoes.service';
 import { AtualizarContaDto, AssinarDto, AvaliarDto, CertificadoDto, MatricularDto, PagamentoDto, ProgressoDto } from './dto/aluno.dto';
 
 @Injectable()
 export class AlunoService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService, private readonly notificacoes: NotificacoesService) {}
 
   conta(userId: number) { return this.prisma.usuario.findUniqueOrThrow({ where: { ID_Usuario: userId }, select: { ID_Usuario: true, NomeCompleto: true, Email: true, IsInstrutor: true, DataCadastro: true } }); }
   async atualizarConta(userId: number, dto: AtualizarContaDto) {
@@ -32,19 +33,28 @@ export class AlunoService {
   }
 
   async marcarProgresso(userId: number, aulaId: number, dto: ProgressoDto) {
-    const aula = await this.prisma.aula.findUnique({ where: { ID_Aula: aulaId }, include: { Modulo: true } });
+    const aula = await this.prisma.aula.findUnique({ where: { ID_Aula: aulaId }, include: { Modulo: { include: { Curso: { select: { Titulo: true } } } } } });
     if (!aula) throw new NotFoundException('Aula não encontrada.');
     const matricula = await this.prisma.matricula.findUnique({ where: { ID_Usuario_ID_Curso: { ID_Usuario: userId, ID_Curso: aula.Modulo.ID_Curso } } });
     if (!matricula) throw new ForbiddenException('Você não está matriculado neste curso.');
+    const anterior = await this.prisma.progressoAula.findUnique({ where: { ID_Usuario_ID_Aula: { ID_Usuario: userId, ID_Aula: aulaId } } });
     await this.prisma.progressoAula.upsert({ where: { ID_Usuario_ID_Aula: { ID_Usuario: userId, ID_Aula: aulaId } }, create: { ID_Usuario: userId, ID_Aula: aulaId, Status: dto.Status, DataConclusao: dto.Status === 'Concluida' ? new Date() : null }, update: { Status: dto.Status, DataConclusao: dto.Status === 'Concluida' ? new Date() : null } });
-    await this.atualizarConclusao(userId, aula.Modulo.ID_Curso);
+    const cursoFoiConcluido = await this.atualizarConclusao(userId, aula.Modulo.ID_Curso);
+    if (dto.Status === 'Concluida' && anterior?.Status !== 'Concluida') {
+      void this.notificacoes.publicar({ tipo: 'aula-concluida', usuarioId: userId, titulo: 'Aula concluída', mensagem: `Você concluiu a aula “${aula.Titulo}”.` });
+    }
+    if (cursoFoiConcluido && !matricula.DataConclusao) {
+      void this.notificacoes.publicar({ tipo: 'curso-concluido', usuarioId: userId, titulo: 'Curso concluído', mensagem: `Parabéns! Você concluiu o curso “${aula.Modulo.Curso.Titulo}”.` });
+    }
     return { mensagem: 'Progresso atualizado.' };
   }
 
   private async atualizarConclusao(userId: number, cursoId: number) {
     const total = await this.prisma.aula.count({ where: { Modulo: { ID_Curso: cursoId } } });
     const concluidas = await this.prisma.progressoAula.count({ where: { ID_Usuario: userId, Status: 'Concluida', Aula: { Modulo: { ID_Curso: cursoId } } } });
-    await this.prisma.matricula.update({ where: { ID_Usuario_ID_Curso: { ID_Usuario: userId, ID_Curso: cursoId } }, data: { DataConclusao: total > 0 && total === concluidas ? new Date() : null } });
+    const concluido = total > 0 && total === concluidas;
+    await this.prisma.matricula.update({ where: { ID_Usuario_ID_Curso: { ID_Usuario: userId, ID_Curso: cursoId } }, data: { DataConclusao: concluido ? new Date() : null } });
+    return concluido;
   }
 
   private async exigirConclusao(userId: number, cursoId: number) {

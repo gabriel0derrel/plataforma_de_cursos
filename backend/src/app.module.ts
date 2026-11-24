@@ -10,6 +10,7 @@ import { CursosModule } from './cursos/cursos.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { MatriculasModule } from './matriculas/matriculas.module';
 import { ModulosModule } from './modulos/modulos.module';
+import { NotificacoesModule } from './notificacoes/notificacoes.module';
 import { PagamentosModule } from './pagamentos/pagamentos.module';
 import { PlanosModule } from './planos/planos.module';
 import { PrismaModule } from './prisma/prisma.module';
@@ -18,5 +19,5 @@ import { TrilhasModule } from './trilhas/trilhas.module';
 import { TrilhaCursosModule } from './trilha-cursos/trilha-cursos.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 
-@Module({ imports: [PrismaModule, AuthModule, DashboardModule, AlunoModule, UsuariosModule, CategoriasModule, PlanosModule, TrilhasModule, CursosModule, ModulosModule, AulasModule, MatriculasModule, ProgressoAulasModule, AssinaturasModule, PagamentosModule, AvaliacoesModule, CertificadosModule, TrilhaCursosModule] })
+@Module({ imports: [PrismaModule, NotificacoesModule, AuthModule, DashboardModule, AlunoModule, UsuariosModule, CategoriasModule, PlanosModule, TrilhasModule, CursosModule, ModulosModule, AulasModule, MatriculasModule, ProgressoAulasModule, AssinaturasModule, PagamentosModule, AvaliacoesModule, CertificadosModule, TrilhaCursosModule] })
 export class AppModule {}

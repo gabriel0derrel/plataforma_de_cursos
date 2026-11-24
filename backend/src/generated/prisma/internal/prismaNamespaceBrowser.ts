@@ -64,7 +64,9 @@ export const ModelName = {
   Pagamento: 'Pagamento',
   Avaliacao: 'Avaliacao',
   Certificado: 'Certificado',
-  TrilhaCurso: 'TrilhaCurso'
+  TrilhaCurso: 'TrilhaCurso',
+  NotificacaoMobile: 'NotificacaoMobile',
+  DispositivoPush: 'DispositivoPush'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -239,6 +241,30 @@ export const TrilhaCursoScalarFieldEnum = {
 } as const
 
 export type TrilhaCursoScalarFieldEnum = (typeof TrilhaCursoScalarFieldEnum)[keyof typeof TrilhaCursoScalarFieldEnum]
+
+
+export const NotificacaoMobileScalarFieldEnum = {
+  ID_Notificacao: 'ID_Notificacao',
+  ID_Usuario: 'ID_Usuario',
+  EventoId: 'EventoId',
+  Tipo: 'Tipo',
+  Titulo: 'Titulo',
+  Mensagem: 'Mensagem',
+  Lida: 'Lida',
+  DataCriacao: 'DataCriacao'
+} as const
+
+export type NotificacaoMobileScalarFieldEnum = (typeof NotificacaoMobileScalarFieldEnum)[keyof typeof NotificacaoMobileScalarFieldEnum]
+
+
+export const DispositivoPushScalarFieldEnum = {
+  ID_DispositivoPush: 'ID_DispositivoPush',
+  ID_Usuario: 'ID_Usuario',
+  ExpoPushToken: 'ExpoPushToken',
+  DataAtualizacao: 'DataAtualizacao'
+} as const
+
+export type DispositivoPushScalarFieldEnum = (typeof DispositivoPushScalarFieldEnum)[keyof typeof DispositivoPushScalarFieldEnum]
 
 
 export const SortOrder = {

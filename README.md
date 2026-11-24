@@ -6,6 +6,7 @@ Aplicação de gestão de cursos composta por um frontend React/Vite e uma API N
 
 - Node.js 22 LTS ou superior e npm;
 - PostgreSQL em execução e um banco de dados disponível;
+- Apache Kafka em execução para as notificações do mobile;
 - Git, para obter o projeto.
 
 ## Rodar o projeto
@@ -22,6 +23,71 @@ npm run start:dev
 ```
 
 A API ficará disponível em `http://localhost:8080/api`.
+
+## Notificações do mobile com Kafka
+
+As notificações são produzidas e consumidas pelo backend via Kafka e são exibidas somente no aplicativo mobile. Elas são geradas ao criar conta, entrar, concluir uma aula, concluir um curso e quando um administrador publica um curso.
+
+O projeto não usa Docker. Antes de iniciar a API, deixe um broker Kafka já instalado e em execução no endereço configurado abaixo. Para usar outra máquina, porta ou cluster Kafka, informe os brokers separados por vírgula.
+
+### Iniciar Kafka pelo arquivo compactado
+
+Os passos abaixo usam o Kafka em modo KRaft, sem ZooKeeper e sem Docker. É necessário ter Java 17 ou superior:
+
+```bash
+java -version
+```
+
+Baixe o arquivo compactado binário do Kafka no [site oficial](https://kafka.apache.org/downloads), extraia-o e entre na pasta criada. Exemplo para a versão `4.4.0`:
+
+```bash
+cd ~/Downloads
+tar -xzf kafka_2.13-4.4.0.tgz
+cd kafka_2.13-4.4.0
+```
+
+Na primeira execução, gere o identificador do cluster e formate o armazenamento local:
+
+```bash
+KAFKA_CLUSTER_ID="$(bin/kafka-storage.sh random-uuid)"
+bin/kafka-storage.sh format --standalone -t "$KAFKA_CLUSTER_ID" -c config/server.properties
+```
+
+Inicie o broker e mantenha este terminal aberto:
+
+```bash
+bin/kafka-server-start.sh config/server.properties
+```
+
+Em outro terminal, ainda dentro da pasta extraída do Kafka, crie o tópico de notificações (o comando pode ser repetido com segurança):
+
+```bash
+bin/kafka-topics.sh \
+  --bootstrap-server localhost:9092 \
+  --create \
+  --if-not-exists \
+  --topic hyperlessons.mobile.notifications.v1 \
+  --partitions 1 \
+  --replication-factor 1
+```
+
+Confira se o tópico está disponível:
+
+```bash
+bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
+```
+
+O resultado deve conter `hyperlessons.mobile.notifications.v1`. Para encerrar o Kafka, use `Ctrl + C` no terminal que executa `kafka-server-start.sh`.
+
+As configurações do broker ficam em `backend/.env`:
+
+```env
+KAFKA_BROKERS="localhost:9092"
+KAFKA_NOTIFICATIONS_TOPIC="hyperlessons.mobile.notifications.v1"
+KAFKA_CONSUMER_GROUP="hyperlessons-mobile-notification-store"
+```
+
+O backend grava cada mensagem recebida para o aluno no banco e o Expo Go consulta apenas a rota móvel protegida `/api/me/notificacoes`.
 
 No segundo, inicie o frontend:
 
@@ -140,6 +206,9 @@ cp .env.example .env
 DATABASE_URL="postgresql://usuario:senha@localhost:5432/hyperlessons?schema=public"
 JWT_SECRET="uma-chave-longa-aleatoria-e-secreta"
 PORT=8080
+KAFKA_BROKERS="localhost:9092"
+KAFKA_NOTIFICATIONS_TOPIC="hyperlessons.mobile.notifications.v1"
+KAFKA_CONSUMER_GROUP="hyperlessons-mobile-notification-store"
 ```
 
 Para gerar uma chave JWT no Linux/macOS, você pode usar `openssl rand -hex 32`. Nunca envie o arquivo `.env` ao repositório.

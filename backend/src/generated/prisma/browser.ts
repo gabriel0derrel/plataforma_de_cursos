@@ -87,3 +87,13 @@ export type Certificado = Prisma.CertificadoModel
  * 
  */
 export type TrilhaCurso = Prisma.TrilhaCursoModel
+/**
+ * Model NotificacaoMobile
+ * 
+ */
+export type NotificacaoMobile = Prisma.NotificacaoMobileModel
+/**
+ * Model DispositivoPush
+ * 
+ */
+export type DispositivoPush = Prisma.DispositivoPushModel

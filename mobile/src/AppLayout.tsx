@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { ComponentProps } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -17,6 +17,8 @@ import { useUser } from './features/autenticacao/AuthContext';
 import type { RootStackParamList } from './navigation/navigationTypes';
 import { Dashboard } from './Dashboard';
 import { cores } from './colors';
+import { NotificationsPanel } from './features/notificacoes/NotificationsPanel';
+import { notificacoesApi, type NotificacaoMobile } from './features/notificacoes/notificacoesApi';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Principal'>;
 type PaginaMenu = 'Início' | 'Cursos' | 'Jornada' | 'Perfil';
@@ -30,6 +32,19 @@ export default function AppLayout({ navigation }: Props) {
   const { usuario, sair } = useUser();
   const [tela, setTela] = useState<Tela>({ pagina: 'Início' });
   const [historico, setHistorico] = useState<Tela[]>([]);
+  const [notificacoes, setNotificacoes] = useState<NotificacaoMobile[]>([]);
+  const [notificacoesAbertas, setNotificacoesAbertas] = useState(false);
+
+  const carregarNotificacoes = useCallback(async () => {
+    try { setNotificacoes(await notificacoesApi.listar()); }
+    catch { /* A navegação continua disponível se o Kafka/API estiver momentaneamente indisponível. */ }
+  }, []);
+
+  useEffect(() => {
+    void carregarNotificacoes();
+    const intervalo = setInterval(() => { void carregarNotificacoes(); }, 30_000);
+    return () => clearInterval(intervalo);
+  }, [carregarNotificacoes]);
 
   function navegar(proxima: Tela): void {
     if (proxima.pagina === tela.pagina && proxima.curso === tela.curso) return;
@@ -47,6 +62,15 @@ export default function AppLayout({ navigation }: Props) {
   function encerrarSessao(): void {
     sair();
     navigation.replace('Login');
+  }
+
+  async function abrirNotificacao(notificacao: NotificacaoMobile): Promise<void> {
+    if (!notificacao.Lida) {
+      try {
+        await notificacoesApi.marcarComoLida(notificacao.ID_Notificacao);
+        setNotificacoes((itens) => itens.map((item) => item.ID_Notificacao === notificacao.ID_Notificacao ? { ...item, Lida: true } : item));
+      } catch { /* A leitura será tentada novamente quando a notificação for aberta. */ }
+    }
   }
 
   function renderPagina() {
@@ -67,7 +91,10 @@ export default function AppLayout({ navigation }: Props) {
     <View style={styles.cabecalho}>
       {historico.length > 0 ? <TouchableOpacity style={styles.botaoSeta} onPress={voltar} accessibilityLabel="Voltar"><Ionicons name="chevron-back" size={25} color={cores.primaria} /></TouchableOpacity> : <View style={styles.espacoSeta} />}
       <Text style={styles.titulo}>{tela.pagina === 'Aulas do curso' ? tela.curso : tela.pagina}</Text>
-      <View style={styles.espacoSeta} />
+      <TouchableOpacity style={styles.botaoNotificacoes} onPress={() => { setNotificacoesAbertas(true); void carregarNotificacoes(); }} accessibilityLabel="Abrir notificações">
+        <Ionicons name="notifications-outline" size={22} color={cores.primaria} />
+        {notificacoes.some((notificacao) => !notificacao.Lida) ? <View style={styles.badge}><Text style={styles.badgeTexto}>{notificacoes.filter((notificacao) => !notificacao.Lida).length}</Text></View> : null}
+      </TouchableOpacity>
     </View>
 
     {/* BLOCO 2: conteúdo rolável */}
@@ -80,6 +107,7 @@ export default function AppLayout({ navigation }: Props) {
         <Text style={[styles.menuTexto, tela.pagina === item && styles.menuTextoAtivo]}>{item}</Text>
       </TouchableOpacity>)}
     </View>
+    <NotificationsPanel visible={notificacoesAbertas} notificacoes={notificacoes} onClose={() => setNotificacoesAbertas(false)} onAbrir={abrirNotificacao} />
   </View>;
 }
 
@@ -87,6 +115,7 @@ const styles = StyleSheet.create({
   tela: { flex: 1, backgroundColor: cores.fundo },
   cabecalho: { width: '100%', maxWidth: 720, height: 68, alignSelf: 'center', paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: cores.superficie, borderBottomWidth: 2, borderBottomColor: cores.primaria },
   botaoSeta: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }, espacoSeta: { width: 44, height: 44 }, titulo: { flex: 1, color: cores.texto, fontSize: 18, fontWeight: 'bold', textAlign: 'center' },
+  botaoNotificacoes: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }, badge: { position: 'absolute', top: 4, right: 3, minWidth: 17, height: 17, paddingHorizontal: 3, borderRadius: 9, alignItems: 'center', justifyContent: 'center', backgroundColor: cores.erro }, badgeTexto: { color: cores.branco, fontSize: 10, fontWeight: 'bold' },
   scroll: { flex: 1, width: '100%', maxWidth: 720, alignSelf: 'center' }, conteudo: { padding: 20, paddingBottom: 28, gap: 14 },
   menu: { width: '100%', maxWidth: 720, height: 72, alignSelf: 'center', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', borderTopWidth: 1, borderTopColor: cores.borda, backgroundColor: cores.superficie }, menuItem: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 3 }, menuTexto: { color: cores.textoSuave, fontSize: 11 }, menuTextoAtivo: { color: cores.primaria, fontWeight: 'bold' },
 });

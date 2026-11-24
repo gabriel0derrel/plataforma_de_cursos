@@ -22,6 +22,7 @@ model Usuario {
   Assinaturas Assinatura[]
   Avaliacoes Avaliacao[]
   Certificados Certificado[]
+  NotificacoesMobile NotificacaoMobile[]
 }
 
 model Categoria {
@@ -167,4 +168,18 @@ model TrilhaCurso {
   Curso Curso @relation(fields: [ID_Curso], references: [ID_Curso], onDelete: Cascade)
   @@id([ID_Trilha, ID_Curso])
   @@unique([ID_Trilha, Ordem])
+}
+
+model NotificacaoMobile {
+  ID_Notificacao Int @id @default(autoincrement())
+  ID_Usuario Int
+  EventoId String
+  Tipo String
+  Titulo String
+  Mensagem String
+  Lida Boolean @default(false)
+  DataCriacao DateTime @default(now())
+  Usuario Usuario @relation(fields: [ID_Usuario], references: [ID_Usuario], onDelete: Cascade)
+  @@unique([ID_Usuario, EventoId])
+  @@index([ID_Usuario, DataCriacao])
 }

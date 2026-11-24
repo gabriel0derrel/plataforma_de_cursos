@@ -238,6 +238,8 @@ export type UsuarioWhereInput = {
   Assinaturas?: Prisma.AssinaturaListRelationFilter
   Avaliacoes?: Prisma.AvaliacaoListRelationFilter
   Certificados?: Prisma.CertificadoListRelationFilter
+  NotificacoesMobile?: Prisma.NotificacaoMobileListRelationFilter
+  DispositivosPush?: Prisma.DispositivoPushListRelationFilter
 }
 
 export type UsuarioOrderByWithRelationInput = {
@@ -254,6 +256,8 @@ export type UsuarioOrderByWithRelationInput = {
   Assinaturas?: Prisma.AssinaturaOrderByRelationAggregateInput
   Avaliacoes?: Prisma.AvaliacaoOrderByRelationAggregateInput
   Certificados?: Prisma.CertificadoOrderByRelationAggregateInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileOrderByRelationAggregateInput
+  DispositivosPush?: Prisma.DispositivoPushOrderByRelationAggregateInput
 }
 
 export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
@@ -273,6 +277,8 @@ export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
   Assinaturas?: Prisma.AssinaturaListRelationFilter
   Avaliacoes?: Prisma.AvaliacaoListRelationFilter
   Certificados?: Prisma.CertificadoListRelationFilter
+  NotificacoesMobile?: Prisma.NotificacaoMobileListRelationFilter
+  DispositivosPush?: Prisma.DispositivoPushListRelationFilter
 }, "ID_Usuario" | "Email">
 
 export type UsuarioOrderByWithAggregationInput = {
@@ -316,6 +322,8 @@ export type UsuarioCreateInput = {
   Assinaturas?: Prisma.AssinaturaCreateNestedManyWithoutUsuarioInput
   Avaliacoes?: Prisma.AvaliacaoCreateNestedManyWithoutUsuarioInput
   Certificados?: Prisma.CertificadoCreateNestedManyWithoutUsuarioInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileCreateNestedManyWithoutUsuarioInput
+  DispositivosPush?: Prisma.DispositivoPushCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioUncheckedCreateInput = {
@@ -332,6 +340,8 @@ export type UsuarioUncheckedCreateInput = {
   Assinaturas?: Prisma.AssinaturaUncheckedCreateNestedManyWithoutUsuarioInput
   Avaliacoes?: Prisma.AvaliacaoUncheckedCreateNestedManyWithoutUsuarioInput
   Certificados?: Prisma.CertificadoUncheckedCreateNestedManyWithoutUsuarioInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUncheckedCreateNestedManyWithoutUsuarioInput
+  DispositivosPush?: Prisma.DispositivoPushUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioUpdateInput = {
@@ -347,6 +357,8 @@ export type UsuarioUpdateInput = {
   Assinaturas?: Prisma.AssinaturaUpdateManyWithoutUsuarioNestedInput
   Avaliacoes?: Prisma.AvaliacaoUpdateManyWithoutUsuarioNestedInput
   Certificados?: Prisma.CertificadoUpdateManyWithoutUsuarioNestedInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUpdateManyWithoutUsuarioNestedInput
+  DispositivosPush?: Prisma.DispositivoPushUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioUncheckedUpdateInput = {
@@ -363,6 +375,8 @@ export type UsuarioUncheckedUpdateInput = {
   Assinaturas?: Prisma.AssinaturaUncheckedUpdateManyWithoutUsuarioNestedInput
   Avaliacoes?: Prisma.AvaliacaoUncheckedUpdateManyWithoutUsuarioNestedInput
   Certificados?: Prisma.CertificadoUncheckedUpdateManyWithoutUsuarioNestedInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUncheckedUpdateManyWithoutUsuarioNestedInput
+  DispositivosPush?: Prisma.DispositivoPushUncheckedUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioCreateManyInput = {
@@ -541,6 +555,34 @@ export type UsuarioUpdateOneRequiredWithoutCertificadosNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UsuarioUpdateToOneWithWhereWithoutCertificadosInput, Prisma.UsuarioUpdateWithoutCertificadosInput>, Prisma.UsuarioUncheckedUpdateWithoutCertificadosInput>
 }
 
+export type UsuarioCreateNestedOneWithoutNotificacoesMobileInput = {
+  create?: Prisma.XOR<Prisma.UsuarioCreateWithoutNotificacoesMobileInput, Prisma.UsuarioUncheckedCreateWithoutNotificacoesMobileInput>
+  connectOrCreate?: Prisma.UsuarioCreateOrConnectWithoutNotificacoesMobileInput
+  connect?: Prisma.UsuarioWhereUniqueInput
+}
+
+export type UsuarioUpdateOneRequiredWithoutNotificacoesMobileNestedInput = {
+  create?: Prisma.XOR<Prisma.UsuarioCreateWithoutNotificacoesMobileInput, Prisma.UsuarioUncheckedCreateWithoutNotificacoesMobileInput>
+  connectOrCreate?: Prisma.UsuarioCreateOrConnectWithoutNotificacoesMobileInput
+  upsert?: Prisma.UsuarioUpsertWithoutNotificacoesMobileInput
+  connect?: Prisma.UsuarioWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UsuarioUpdateToOneWithWhereWithoutNotificacoesMobileInput, Prisma.UsuarioUpdateWithoutNotificacoesMobileInput>, Prisma.UsuarioUncheckedUpdateWithoutNotificacoesMobileInput>
+}
+
+export type UsuarioCreateNestedOneWithoutDispositivosPushInput = {
+  create?: Prisma.XOR<Prisma.UsuarioCreateWithoutDispositivosPushInput, Prisma.UsuarioUncheckedCreateWithoutDispositivosPushInput>
+  connectOrCreate?: Prisma.UsuarioCreateOrConnectWithoutDispositivosPushInput
+  connect?: Prisma.UsuarioWhereUniqueInput
+}
+
+export type UsuarioUpdateOneRequiredWithoutDispositivosPushNestedInput = {
+  create?: Prisma.XOR<Prisma.UsuarioCreateWithoutDispositivosPushInput, Prisma.UsuarioUncheckedCreateWithoutDispositivosPushInput>
+  connectOrCreate?: Prisma.UsuarioCreateOrConnectWithoutDispositivosPushInput
+  upsert?: Prisma.UsuarioUpsertWithoutDispositivosPushInput
+  connect?: Prisma.UsuarioWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UsuarioUpdateToOneWithWhereWithoutDispositivosPushInput, Prisma.UsuarioUpdateWithoutDispositivosPushInput>, Prisma.UsuarioUncheckedUpdateWithoutDispositivosPushInput>
+}
+
 export type UsuarioCreateWithoutCursosMinistradosInput = {
   NomeCompleto: string
   Email: string
@@ -553,6 +595,8 @@ export type UsuarioCreateWithoutCursosMinistradosInput = {
   Assinaturas?: Prisma.AssinaturaCreateNestedManyWithoutUsuarioInput
   Avaliacoes?: Prisma.AvaliacaoCreateNestedManyWithoutUsuarioInput
   Certificados?: Prisma.CertificadoCreateNestedManyWithoutUsuarioInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileCreateNestedManyWithoutUsuarioInput
+  DispositivosPush?: Prisma.DispositivoPushCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioUncheckedCreateWithoutCursosMinistradosInput = {
@@ -568,6 +612,8 @@ export type UsuarioUncheckedCreateWithoutCursosMinistradosInput = {
   Assinaturas?: Prisma.AssinaturaUncheckedCreateNestedManyWithoutUsuarioInput
   Avaliacoes?: Prisma.AvaliacaoUncheckedCreateNestedManyWithoutUsuarioInput
   Certificados?: Prisma.CertificadoUncheckedCreateNestedManyWithoutUsuarioInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUncheckedCreateNestedManyWithoutUsuarioInput
+  DispositivosPush?: Prisma.DispositivoPushUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioCreateOrConnectWithoutCursosMinistradosInput = {
@@ -598,6 +644,8 @@ export type UsuarioUpdateWithoutCursosMinistradosInput = {
   Assinaturas?: Prisma.AssinaturaUpdateManyWithoutUsuarioNestedInput
   Avaliacoes?: Prisma.AvaliacaoUpdateManyWithoutUsuarioNestedInput
   Certificados?: Prisma.CertificadoUpdateManyWithoutUsuarioNestedInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUpdateManyWithoutUsuarioNestedInput
+  DispositivosPush?: Prisma.DispositivoPushUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioUncheckedUpdateWithoutCursosMinistradosInput = {
@@ -613,6 +661,8 @@ export type UsuarioUncheckedUpdateWithoutCursosMinistradosInput = {
   Assinaturas?: Prisma.AssinaturaUncheckedUpdateManyWithoutUsuarioNestedInput
   Avaliacoes?: Prisma.AvaliacaoUncheckedUpdateManyWithoutUsuarioNestedInput
   Certificados?: Prisma.CertificadoUncheckedUpdateManyWithoutUsuarioNestedInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUncheckedUpdateManyWithoutUsuarioNestedInput
+  DispositivosPush?: Prisma.DispositivoPushUncheckedUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioCreateWithoutMatriculasInput = {
@@ -627,6 +677,8 @@ export type UsuarioCreateWithoutMatriculasInput = {
   Assinaturas?: Prisma.AssinaturaCreateNestedManyWithoutUsuarioInput
   Avaliacoes?: Prisma.AvaliacaoCreateNestedManyWithoutUsuarioInput
   Certificados?: Prisma.CertificadoCreateNestedManyWithoutUsuarioInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileCreateNestedManyWithoutUsuarioInput
+  DispositivosPush?: Prisma.DispositivoPushCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioUncheckedCreateWithoutMatriculasInput = {
@@ -642,6 +694,8 @@ export type UsuarioUncheckedCreateWithoutMatriculasInput = {
   Assinaturas?: Prisma.AssinaturaUncheckedCreateNestedManyWithoutUsuarioInput
   Avaliacoes?: Prisma.AvaliacaoUncheckedCreateNestedManyWithoutUsuarioInput
   Certificados?: Prisma.CertificadoUncheckedCreateNestedManyWithoutUsuarioInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUncheckedCreateNestedManyWithoutUsuarioInput
+  DispositivosPush?: Prisma.DispositivoPushUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioCreateOrConnectWithoutMatriculasInput = {
@@ -672,6 +726,8 @@ export type UsuarioUpdateWithoutMatriculasInput = {
   Assinaturas?: Prisma.AssinaturaUpdateManyWithoutUsuarioNestedInput
   Avaliacoes?: Prisma.AvaliacaoUpdateManyWithoutUsuarioNestedInput
   Certificados?: Prisma.CertificadoUpdateManyWithoutUsuarioNestedInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUpdateManyWithoutUsuarioNestedInput
+  DispositivosPush?: Prisma.DispositivoPushUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioUncheckedUpdateWithoutMatriculasInput = {
@@ -687,6 +743,8 @@ export type UsuarioUncheckedUpdateWithoutMatriculasInput = {
   Assinaturas?: Prisma.AssinaturaUncheckedUpdateManyWithoutUsuarioNestedInput
   Avaliacoes?: Prisma.AvaliacaoUncheckedUpdateManyWithoutUsuarioNestedInput
   Certificados?: Prisma.CertificadoUncheckedUpdateManyWithoutUsuarioNestedInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUncheckedUpdateManyWithoutUsuarioNestedInput
+  DispositivosPush?: Prisma.DispositivoPushUncheckedUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioCreateWithoutProgressosInput = {
@@ -701,6 +759,8 @@ export type UsuarioCreateWithoutProgressosInput = {
   Assinaturas?: Prisma.AssinaturaCreateNestedManyWithoutUsuarioInput
   Avaliacoes?: Prisma.AvaliacaoCreateNestedManyWithoutUsuarioInput
   Certificados?: Prisma.CertificadoCreateNestedManyWithoutUsuarioInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileCreateNestedManyWithoutUsuarioInput
+  DispositivosPush?: Prisma.DispositivoPushCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioUncheckedCreateWithoutProgressosInput = {
@@ -716,6 +776,8 @@ export type UsuarioUncheckedCreateWithoutProgressosInput = {
   Assinaturas?: Prisma.AssinaturaUncheckedCreateNestedManyWithoutUsuarioInput
   Avaliacoes?: Prisma.AvaliacaoUncheckedCreateNestedManyWithoutUsuarioInput
   Certificados?: Prisma.CertificadoUncheckedCreateNestedManyWithoutUsuarioInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUncheckedCreateNestedManyWithoutUsuarioInput
+  DispositivosPush?: Prisma.DispositivoPushUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioCreateOrConnectWithoutProgressosInput = {
@@ -746,6 +808,8 @@ export type UsuarioUpdateWithoutProgressosInput = {
   Assinaturas?: Prisma.AssinaturaUpdateManyWithoutUsuarioNestedInput
   Avaliacoes?: Prisma.AvaliacaoUpdateManyWithoutUsuarioNestedInput
   Certificados?: Prisma.CertificadoUpdateManyWithoutUsuarioNestedInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUpdateManyWithoutUsuarioNestedInput
+  DispositivosPush?: Prisma.DispositivoPushUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioUncheckedUpdateWithoutProgressosInput = {
@@ -761,6 +825,8 @@ export type UsuarioUncheckedUpdateWithoutProgressosInput = {
   Assinaturas?: Prisma.AssinaturaUncheckedUpdateManyWithoutUsuarioNestedInput
   Avaliacoes?: Prisma.AvaliacaoUncheckedUpdateManyWithoutUsuarioNestedInput
   Certificados?: Prisma.CertificadoUncheckedUpdateManyWithoutUsuarioNestedInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUncheckedUpdateManyWithoutUsuarioNestedInput
+  DispositivosPush?: Prisma.DispositivoPushUncheckedUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioCreateWithoutAssinaturasInput = {
@@ -775,6 +841,8 @@ export type UsuarioCreateWithoutAssinaturasInput = {
   Progressos?: Prisma.ProgressoAulaCreateNestedManyWithoutUsuarioInput
   Avaliacoes?: Prisma.AvaliacaoCreateNestedManyWithoutUsuarioInput
   Certificados?: Prisma.CertificadoCreateNestedManyWithoutUsuarioInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileCreateNestedManyWithoutUsuarioInput
+  DispositivosPush?: Prisma.DispositivoPushCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioUncheckedCreateWithoutAssinaturasInput = {
@@ -790,6 +858,8 @@ export type UsuarioUncheckedCreateWithoutAssinaturasInput = {
   Progressos?: Prisma.ProgressoAulaUncheckedCreateNestedManyWithoutUsuarioInput
   Avaliacoes?: Prisma.AvaliacaoUncheckedCreateNestedManyWithoutUsuarioInput
   Certificados?: Prisma.CertificadoUncheckedCreateNestedManyWithoutUsuarioInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUncheckedCreateNestedManyWithoutUsuarioInput
+  DispositivosPush?: Prisma.DispositivoPushUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioCreateOrConnectWithoutAssinaturasInput = {
@@ -820,6 +890,8 @@ export type UsuarioUpdateWithoutAssinaturasInput = {
   Progressos?: Prisma.ProgressoAulaUpdateManyWithoutUsuarioNestedInput
   Avaliacoes?: Prisma.AvaliacaoUpdateManyWithoutUsuarioNestedInput
   Certificados?: Prisma.CertificadoUpdateManyWithoutUsuarioNestedInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUpdateManyWithoutUsuarioNestedInput
+  DispositivosPush?: Prisma.DispositivoPushUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioUncheckedUpdateWithoutAssinaturasInput = {
@@ -835,6 +907,8 @@ export type UsuarioUncheckedUpdateWithoutAssinaturasInput = {
   Progressos?: Prisma.ProgressoAulaUncheckedUpdateManyWithoutUsuarioNestedInput
   Avaliacoes?: Prisma.AvaliacaoUncheckedUpdateManyWithoutUsuarioNestedInput
   Certificados?: Prisma.CertificadoUncheckedUpdateManyWithoutUsuarioNestedInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUncheckedUpdateManyWithoutUsuarioNestedInput
+  DispositivosPush?: Prisma.DispositivoPushUncheckedUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioCreateWithoutAvaliacoesInput = {
@@ -849,6 +923,8 @@ export type UsuarioCreateWithoutAvaliacoesInput = {
   Progressos?: Prisma.ProgressoAulaCreateNestedManyWithoutUsuarioInput
   Assinaturas?: Prisma.AssinaturaCreateNestedManyWithoutUsuarioInput
   Certificados?: Prisma.CertificadoCreateNestedManyWithoutUsuarioInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileCreateNestedManyWithoutUsuarioInput
+  DispositivosPush?: Prisma.DispositivoPushCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioUncheckedCreateWithoutAvaliacoesInput = {
@@ -864,6 +940,8 @@ export type UsuarioUncheckedCreateWithoutAvaliacoesInput = {
   Progressos?: Prisma.ProgressoAulaUncheckedCreateNestedManyWithoutUsuarioInput
   Assinaturas?: Prisma.AssinaturaUncheckedCreateNestedManyWithoutUsuarioInput
   Certificados?: Prisma.CertificadoUncheckedCreateNestedManyWithoutUsuarioInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUncheckedCreateNestedManyWithoutUsuarioInput
+  DispositivosPush?: Prisma.DispositivoPushUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioCreateOrConnectWithoutAvaliacoesInput = {
@@ -894,6 +972,8 @@ export type UsuarioUpdateWithoutAvaliacoesInput = {
   Progressos?: Prisma.ProgressoAulaUpdateManyWithoutUsuarioNestedInput
   Assinaturas?: Prisma.AssinaturaUpdateManyWithoutUsuarioNestedInput
   Certificados?: Prisma.CertificadoUpdateManyWithoutUsuarioNestedInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUpdateManyWithoutUsuarioNestedInput
+  DispositivosPush?: Prisma.DispositivoPushUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioUncheckedUpdateWithoutAvaliacoesInput = {
@@ -909,6 +989,8 @@ export type UsuarioUncheckedUpdateWithoutAvaliacoesInput = {
   Progressos?: Prisma.ProgressoAulaUncheckedUpdateManyWithoutUsuarioNestedInput
   Assinaturas?: Prisma.AssinaturaUncheckedUpdateManyWithoutUsuarioNestedInput
   Certificados?: Prisma.CertificadoUncheckedUpdateManyWithoutUsuarioNestedInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUncheckedUpdateManyWithoutUsuarioNestedInput
+  DispositivosPush?: Prisma.DispositivoPushUncheckedUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioCreateWithoutCertificadosInput = {
@@ -923,6 +1005,8 @@ export type UsuarioCreateWithoutCertificadosInput = {
   Progressos?: Prisma.ProgressoAulaCreateNestedManyWithoutUsuarioInput
   Assinaturas?: Prisma.AssinaturaCreateNestedManyWithoutUsuarioInput
   Avaliacoes?: Prisma.AvaliacaoCreateNestedManyWithoutUsuarioInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileCreateNestedManyWithoutUsuarioInput
+  DispositivosPush?: Prisma.DispositivoPushCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioUncheckedCreateWithoutCertificadosInput = {
@@ -938,6 +1022,8 @@ export type UsuarioUncheckedCreateWithoutCertificadosInput = {
   Progressos?: Prisma.ProgressoAulaUncheckedCreateNestedManyWithoutUsuarioInput
   Assinaturas?: Prisma.AssinaturaUncheckedCreateNestedManyWithoutUsuarioInput
   Avaliacoes?: Prisma.AvaliacaoUncheckedCreateNestedManyWithoutUsuarioInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUncheckedCreateNestedManyWithoutUsuarioInput
+  DispositivosPush?: Prisma.DispositivoPushUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioCreateOrConnectWithoutCertificadosInput = {
@@ -968,6 +1054,8 @@ export type UsuarioUpdateWithoutCertificadosInput = {
   Progressos?: Prisma.ProgressoAulaUpdateManyWithoutUsuarioNestedInput
   Assinaturas?: Prisma.AssinaturaUpdateManyWithoutUsuarioNestedInput
   Avaliacoes?: Prisma.AvaliacaoUpdateManyWithoutUsuarioNestedInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUpdateManyWithoutUsuarioNestedInput
+  DispositivosPush?: Prisma.DispositivoPushUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioUncheckedUpdateWithoutCertificadosInput = {
@@ -983,6 +1071,172 @@ export type UsuarioUncheckedUpdateWithoutCertificadosInput = {
   Progressos?: Prisma.ProgressoAulaUncheckedUpdateManyWithoutUsuarioNestedInput
   Assinaturas?: Prisma.AssinaturaUncheckedUpdateManyWithoutUsuarioNestedInput
   Avaliacoes?: Prisma.AvaliacaoUncheckedUpdateManyWithoutUsuarioNestedInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUncheckedUpdateManyWithoutUsuarioNestedInput
+  DispositivosPush?: Prisma.DispositivoPushUncheckedUpdateManyWithoutUsuarioNestedInput
+}
+
+export type UsuarioCreateWithoutNotificacoesMobileInput = {
+  NomeCompleto: string
+  Email: string
+  Senha: string
+  IsInstrutor?: boolean
+  IsAdmin?: boolean
+  DataCadastro?: Date | string
+  CursosMinistrados?: Prisma.CursoCreateNestedManyWithoutInstrutorInput
+  Matriculas?: Prisma.MatriculaCreateNestedManyWithoutUsuarioInput
+  Progressos?: Prisma.ProgressoAulaCreateNestedManyWithoutUsuarioInput
+  Assinaturas?: Prisma.AssinaturaCreateNestedManyWithoutUsuarioInput
+  Avaliacoes?: Prisma.AvaliacaoCreateNestedManyWithoutUsuarioInput
+  Certificados?: Prisma.CertificadoCreateNestedManyWithoutUsuarioInput
+  DispositivosPush?: Prisma.DispositivoPushCreateNestedManyWithoutUsuarioInput
+}
+
+export type UsuarioUncheckedCreateWithoutNotificacoesMobileInput = {
+  ID_Usuario?: number
+  NomeCompleto: string
+  Email: string
+  Senha: string
+  IsInstrutor?: boolean
+  IsAdmin?: boolean
+  DataCadastro?: Date | string
+  CursosMinistrados?: Prisma.CursoUncheckedCreateNestedManyWithoutInstrutorInput
+  Matriculas?: Prisma.MatriculaUncheckedCreateNestedManyWithoutUsuarioInput
+  Progressos?: Prisma.ProgressoAulaUncheckedCreateNestedManyWithoutUsuarioInput
+  Assinaturas?: Prisma.AssinaturaUncheckedCreateNestedManyWithoutUsuarioInput
+  Avaliacoes?: Prisma.AvaliacaoUncheckedCreateNestedManyWithoutUsuarioInput
+  Certificados?: Prisma.CertificadoUncheckedCreateNestedManyWithoutUsuarioInput
+  DispositivosPush?: Prisma.DispositivoPushUncheckedCreateNestedManyWithoutUsuarioInput
+}
+
+export type UsuarioCreateOrConnectWithoutNotificacoesMobileInput = {
+  where: Prisma.UsuarioWhereUniqueInput
+  create: Prisma.XOR<Prisma.UsuarioCreateWithoutNotificacoesMobileInput, Prisma.UsuarioUncheckedCreateWithoutNotificacoesMobileInput>
+}
+
+export type UsuarioUpsertWithoutNotificacoesMobileInput = {
+  update: Prisma.XOR<Prisma.UsuarioUpdateWithoutNotificacoesMobileInput, Prisma.UsuarioUncheckedUpdateWithoutNotificacoesMobileInput>
+  create: Prisma.XOR<Prisma.UsuarioCreateWithoutNotificacoesMobileInput, Prisma.UsuarioUncheckedCreateWithoutNotificacoesMobileInput>
+  where?: Prisma.UsuarioWhereInput
+}
+
+export type UsuarioUpdateToOneWithWhereWithoutNotificacoesMobileInput = {
+  where?: Prisma.UsuarioWhereInput
+  data: Prisma.XOR<Prisma.UsuarioUpdateWithoutNotificacoesMobileInput, Prisma.UsuarioUncheckedUpdateWithoutNotificacoesMobileInput>
+}
+
+export type UsuarioUpdateWithoutNotificacoesMobileInput = {
+  NomeCompleto?: Prisma.StringFieldUpdateOperationsInput | string
+  Email?: Prisma.StringFieldUpdateOperationsInput | string
+  Senha?: Prisma.StringFieldUpdateOperationsInput | string
+  IsInstrutor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  IsAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  DataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  CursosMinistrados?: Prisma.CursoUpdateManyWithoutInstrutorNestedInput
+  Matriculas?: Prisma.MatriculaUpdateManyWithoutUsuarioNestedInput
+  Progressos?: Prisma.ProgressoAulaUpdateManyWithoutUsuarioNestedInput
+  Assinaturas?: Prisma.AssinaturaUpdateManyWithoutUsuarioNestedInput
+  Avaliacoes?: Prisma.AvaliacaoUpdateManyWithoutUsuarioNestedInput
+  Certificados?: Prisma.CertificadoUpdateManyWithoutUsuarioNestedInput
+  DispositivosPush?: Prisma.DispositivoPushUpdateManyWithoutUsuarioNestedInput
+}
+
+export type UsuarioUncheckedUpdateWithoutNotificacoesMobileInput = {
+  ID_Usuario?: Prisma.IntFieldUpdateOperationsInput | number
+  NomeCompleto?: Prisma.StringFieldUpdateOperationsInput | string
+  Email?: Prisma.StringFieldUpdateOperationsInput | string
+  Senha?: Prisma.StringFieldUpdateOperationsInput | string
+  IsInstrutor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  IsAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  DataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  CursosMinistrados?: Prisma.CursoUncheckedUpdateManyWithoutInstrutorNestedInput
+  Matriculas?: Prisma.MatriculaUncheckedUpdateManyWithoutUsuarioNestedInput
+  Progressos?: Prisma.ProgressoAulaUncheckedUpdateManyWithoutUsuarioNestedInput
+  Assinaturas?: Prisma.AssinaturaUncheckedUpdateManyWithoutUsuarioNestedInput
+  Avaliacoes?: Prisma.AvaliacaoUncheckedUpdateManyWithoutUsuarioNestedInput
+  Certificados?: Prisma.CertificadoUncheckedUpdateManyWithoutUsuarioNestedInput
+  DispositivosPush?: Prisma.DispositivoPushUncheckedUpdateManyWithoutUsuarioNestedInput
+}
+
+export type UsuarioCreateWithoutDispositivosPushInput = {
+  NomeCompleto: string
+  Email: string
+  Senha: string
+  IsInstrutor?: boolean
+  IsAdmin?: boolean
+  DataCadastro?: Date | string
+  CursosMinistrados?: Prisma.CursoCreateNestedManyWithoutInstrutorInput
+  Matriculas?: Prisma.MatriculaCreateNestedManyWithoutUsuarioInput
+  Progressos?: Prisma.ProgressoAulaCreateNestedManyWithoutUsuarioInput
+  Assinaturas?: Prisma.AssinaturaCreateNestedManyWithoutUsuarioInput
+  Avaliacoes?: Prisma.AvaliacaoCreateNestedManyWithoutUsuarioInput
+  Certificados?: Prisma.CertificadoCreateNestedManyWithoutUsuarioInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileCreateNestedManyWithoutUsuarioInput
+}
+
+export type UsuarioUncheckedCreateWithoutDispositivosPushInput = {
+  ID_Usuario?: number
+  NomeCompleto: string
+  Email: string
+  Senha: string
+  IsInstrutor?: boolean
+  IsAdmin?: boolean
+  DataCadastro?: Date | string
+  CursosMinistrados?: Prisma.CursoUncheckedCreateNestedManyWithoutInstrutorInput
+  Matriculas?: Prisma.MatriculaUncheckedCreateNestedManyWithoutUsuarioInput
+  Progressos?: Prisma.ProgressoAulaUncheckedCreateNestedManyWithoutUsuarioInput
+  Assinaturas?: Prisma.AssinaturaUncheckedCreateNestedManyWithoutUsuarioInput
+  Avaliacoes?: Prisma.AvaliacaoUncheckedCreateNestedManyWithoutUsuarioInput
+  Certificados?: Prisma.CertificadoUncheckedCreateNestedManyWithoutUsuarioInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUncheckedCreateNestedManyWithoutUsuarioInput
+}
+
+export type UsuarioCreateOrConnectWithoutDispositivosPushInput = {
+  where: Prisma.UsuarioWhereUniqueInput
+  create: Prisma.XOR<Prisma.UsuarioCreateWithoutDispositivosPushInput, Prisma.UsuarioUncheckedCreateWithoutDispositivosPushInput>
+}
+
+export type UsuarioUpsertWithoutDispositivosPushInput = {
+  update: Prisma.XOR<Prisma.UsuarioUpdateWithoutDispositivosPushInput, Prisma.UsuarioUncheckedUpdateWithoutDispositivosPushInput>
+  create: Prisma.XOR<Prisma.UsuarioCreateWithoutDispositivosPushInput, Prisma.UsuarioUncheckedCreateWithoutDispositivosPushInput>
+  where?: Prisma.UsuarioWhereInput
+}
+
+export type UsuarioUpdateToOneWithWhereWithoutDispositivosPushInput = {
+  where?: Prisma.UsuarioWhereInput
+  data: Prisma.XOR<Prisma.UsuarioUpdateWithoutDispositivosPushInput, Prisma.UsuarioUncheckedUpdateWithoutDispositivosPushInput>
+}
+
+export type UsuarioUpdateWithoutDispositivosPushInput = {
+  NomeCompleto?: Prisma.StringFieldUpdateOperationsInput | string
+  Email?: Prisma.StringFieldUpdateOperationsInput | string
+  Senha?: Prisma.StringFieldUpdateOperationsInput | string
+  IsInstrutor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  IsAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  DataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  CursosMinistrados?: Prisma.CursoUpdateManyWithoutInstrutorNestedInput
+  Matriculas?: Prisma.MatriculaUpdateManyWithoutUsuarioNestedInput
+  Progressos?: Prisma.ProgressoAulaUpdateManyWithoutUsuarioNestedInput
+  Assinaturas?: Prisma.AssinaturaUpdateManyWithoutUsuarioNestedInput
+  Avaliacoes?: Prisma.AvaliacaoUpdateManyWithoutUsuarioNestedInput
+  Certificados?: Prisma.CertificadoUpdateManyWithoutUsuarioNestedInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUpdateManyWithoutUsuarioNestedInput
+}
+
+export type UsuarioUncheckedUpdateWithoutDispositivosPushInput = {
+  ID_Usuario?: Prisma.IntFieldUpdateOperationsInput | number
+  NomeCompleto?: Prisma.StringFieldUpdateOperationsInput | string
+  Email?: Prisma.StringFieldUpdateOperationsInput | string
+  Senha?: Prisma.StringFieldUpdateOperationsInput | string
+  IsInstrutor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  IsAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  DataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  CursosMinistrados?: Prisma.CursoUncheckedUpdateManyWithoutInstrutorNestedInput
+  Matriculas?: Prisma.MatriculaUncheckedUpdateManyWithoutUsuarioNestedInput
+  Progressos?: Prisma.ProgressoAulaUncheckedUpdateManyWithoutUsuarioNestedInput
+  Assinaturas?: Prisma.AssinaturaUncheckedUpdateManyWithoutUsuarioNestedInput
+  Avaliacoes?: Prisma.AvaliacaoUncheckedUpdateManyWithoutUsuarioNestedInput
+  Certificados?: Prisma.CertificadoUncheckedUpdateManyWithoutUsuarioNestedInput
+  NotificacoesMobile?: Prisma.NotificacaoMobileUncheckedUpdateManyWithoutUsuarioNestedInput
 }
 
 
@@ -997,6 +1251,8 @@ export type UsuarioCountOutputType = {
   Assinaturas: number
   Avaliacoes: number
   Certificados: number
+  NotificacoesMobile: number
+  DispositivosPush: number
 }
 
 export type UsuarioCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1006,6 +1262,8 @@ export type UsuarioCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   Assinaturas?: boolean | UsuarioCountOutputTypeCountAssinaturasArgs
   Avaliacoes?: boolean | UsuarioCountOutputTypeCountAvaliacoesArgs
   Certificados?: boolean | UsuarioCountOutputTypeCountCertificadosArgs
+  NotificacoesMobile?: boolean | UsuarioCountOutputTypeCountNotificacoesMobileArgs
+  DispositivosPush?: boolean | UsuarioCountOutputTypeCountDispositivosPushArgs
 }
 
 /**
@@ -1060,6 +1318,20 @@ export type UsuarioCountOutputTypeCountCertificadosArgs<ExtArgs extends runtime.
   where?: Prisma.CertificadoWhereInput
 }
 
+/**
+ * UsuarioCountOutputType without action
+ */
+export type UsuarioCountOutputTypeCountNotificacoesMobileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificacaoMobileWhereInput
+}
+
+/**
+ * UsuarioCountOutputType without action
+ */
+export type UsuarioCountOutputTypeCountDispositivosPushArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DispositivoPushWhereInput
+}
+
 
 export type UsuarioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   ID_Usuario?: boolean
@@ -1075,6 +1347,8 @@ export type UsuarioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   Assinaturas?: boolean | Prisma.Usuario$AssinaturasArgs<ExtArgs>
   Avaliacoes?: boolean | Prisma.Usuario$AvaliacoesArgs<ExtArgs>
   Certificados?: boolean | Prisma.Usuario$CertificadosArgs<ExtArgs>
+  NotificacoesMobile?: boolean | Prisma.Usuario$NotificacoesMobileArgs<ExtArgs>
+  DispositivosPush?: boolean | Prisma.Usuario$DispositivosPushArgs<ExtArgs>
   _count?: boolean | Prisma.UsuarioCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["usuario"]>
 
@@ -1116,6 +1390,8 @@ export type UsuarioInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   Assinaturas?: boolean | Prisma.Usuario$AssinaturasArgs<ExtArgs>
   Avaliacoes?: boolean | Prisma.Usuario$AvaliacoesArgs<ExtArgs>
   Certificados?: boolean | Prisma.Usuario$CertificadosArgs<ExtArgs>
+  NotificacoesMobile?: boolean | Prisma.Usuario$NotificacoesMobileArgs<ExtArgs>
+  DispositivosPush?: boolean | Prisma.Usuario$DispositivosPushArgs<ExtArgs>
   _count?: boolean | Prisma.UsuarioCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UsuarioIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1130,6 +1406,8 @@ export type $UsuarioPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     Assinaturas: Prisma.$AssinaturaPayload<ExtArgs>[]
     Avaliacoes: Prisma.$AvaliacaoPayload<ExtArgs>[]
     Certificados: Prisma.$CertificadoPayload<ExtArgs>[]
+    NotificacoesMobile: Prisma.$NotificacaoMobilePayload<ExtArgs>[]
+    DispositivosPush: Prisma.$DispositivoPushPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     ID_Usuario: number
@@ -1539,6 +1817,8 @@ export interface Prisma__UsuarioClient<T, Null = never, ExtArgs extends runtime.
   Assinaturas<T extends Prisma.Usuario$AssinaturasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Usuario$AssinaturasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssinaturaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   Avaliacoes<T extends Prisma.Usuario$AvaliacoesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Usuario$AvaliacoesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AvaliacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   Certificados<T extends Prisma.Usuario$CertificadosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Usuario$CertificadosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CertificadoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  NotificacoesMobile<T extends Prisma.Usuario$NotificacoesMobileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Usuario$NotificacoesMobileArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificacaoMobilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  DispositivosPush<T extends Prisma.Usuario$DispositivosPushArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Usuario$DispositivosPushArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DispositivoPushPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2109,6 +2389,54 @@ export type Usuario$CertificadosArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.CertificadoScalarFieldEnum | Prisma.CertificadoScalarFieldEnum[]
+}
+
+/**
+ * Usuario.NotificacoesMobile
+ */
+export type Usuario$NotificacoesMobileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the NotificacaoMobile
+   */
+  select?: Prisma.NotificacaoMobileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the NotificacaoMobile
+   */
+  omit?: Prisma.NotificacaoMobileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificacaoMobileInclude<ExtArgs> | null
+  where?: Prisma.NotificacaoMobileWhereInput
+  orderBy?: Prisma.NotificacaoMobileOrderByWithRelationInput | Prisma.NotificacaoMobileOrderByWithRelationInput[]
+  cursor?: Prisma.NotificacaoMobileWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificacaoMobileScalarFieldEnum | Prisma.NotificacaoMobileScalarFieldEnum[]
+}
+
+/**
+ * Usuario.DispositivosPush
+ */
+export type Usuario$DispositivosPushArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DispositivoPush
+   */
+  select?: Prisma.DispositivoPushSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DispositivoPush
+   */
+  omit?: Prisma.DispositivoPushOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DispositivoPushInclude<ExtArgs> | null
+  where?: Prisma.DispositivoPushWhereInput
+  orderBy?: Prisma.DispositivoPushOrderByWithRelationInput | Prisma.DispositivoPushOrderByWithRelationInput[]
+  cursor?: Prisma.DispositivoPushWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DispositivoPushScalarFieldEnum | Prisma.DispositivoPushScalarFieldEnum[]
 }
 
 /**
