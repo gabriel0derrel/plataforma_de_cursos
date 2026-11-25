@@ -13,8 +13,8 @@ import { trilhaConfig } from './Trilha/config';
 import { usuarioConfig } from './Usuario/config';
 
 export const classConfigs = [
-  usuarioConfig, categoriaConfig, cursoConfig, moduloConfig, aulaConfig, matriculaConfig,
-  progressoAulaConfig, avaliacaoConfig, trilhaConfig, certificadoConfig,
+  usuarioConfig, categoriaConfig, trilhaConfig, cursoConfig, moduloConfig, aulaConfig, matriculaConfig,
+  progressoAulaConfig, avaliacaoConfig, certificadoConfig,
   planoConfig, assinaturaConfig, pagamentoConfig,
 ];
 
