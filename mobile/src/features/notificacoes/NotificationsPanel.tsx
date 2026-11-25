@@ -24,6 +24,7 @@ export function NotificationsPanel({ visible, notificacoes, onClose, onAbrir }: 
 
 const iconePorTipo: Record<string, keyof typeof Ionicons.glyphMap> = {
   'conta-criada': 'person-add-outline', login: 'log-in-outline', 'aula-concluida': 'checkmark-circle-outline', 'curso-concluido': 'ribbon-outline', 'novo-curso': 'book-outline',
+  'nova-categoria': 'grid-outline', 'nova-trilha': 'map-outline', 'novo-modulo': 'layers-outline', 'nova-aula': 'play-circle-outline',
 };
 
 const styles = StyleSheet.create({

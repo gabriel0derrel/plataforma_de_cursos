@@ -10,12 +10,11 @@ import { pagamentoConfig } from './Pagamento/config';
 import { planoConfig } from './Plano/config';
 import { progressoAulaConfig } from './ProgressoAula/config';
 import { trilhaConfig } from './Trilha/config';
-import { trilhaCursoConfig } from './TrilhaCurso/config';
 import { usuarioConfig } from './Usuario/config';
 
 export const classConfigs = [
   usuarioConfig, categoriaConfig, cursoConfig, moduloConfig, aulaConfig, matriculaConfig,
-  progressoAulaConfig, avaliacaoConfig, trilhaConfig, trilhaCursoConfig, certificadoConfig,
+  progressoAulaConfig, avaliacaoConfig, trilhaConfig, certificadoConfig,
   planoConfig, assinaturaConfig, pagamentoConfig,
 ];
 

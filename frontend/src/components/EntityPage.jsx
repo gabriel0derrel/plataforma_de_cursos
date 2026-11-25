@@ -27,10 +27,9 @@ const contextReferences = {
   matriculas: ['categorias'],
   modulos: ['categorias', 'cursos'],
   progresso: ['categorias', 'cursos', 'modulos'],
-  'trilha-cursos': ['categorias'],
 };
 
-function Field({ field, value, onChange, referenceItems = [] }) {
+function Field({ field, value, onChange, referenceItems = [], disabled = false, hint }) {
   if (field.type === 'checkbox') {
     return <label className="check-field"><input type="checkbox" checked={Boolean(value)} onChange={(event) => onChange(field.name, event.target.checked)} /><span>{field.label}</span></label>;
   }
@@ -38,6 +37,7 @@ function Field({ field, value, onChange, referenceItems = [] }) {
   const common = {
     value: value || '',
     required: field.required,
+    disabled,
     min: field.min,
     max: field.max,
     step: field.step,
@@ -49,7 +49,7 @@ function Field({ field, value, onChange, referenceItems = [] }) {
   }
   if (field.type === 'select' || field.reference) {
     const options = field.reference ? referenceItems.map((item) => ({ value: referenceId(item), label: referenceLabel(field.reference, item) })) : field.options.map((option) => ({ value: option, label: option }));
-    return <label className="field"><span>{field.label}</span><select {...common}><option value="">{field.required ? 'Selecione' : 'Não informado'}</option>{options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select></label>;
+    return <label className="field"><span>{field.label}</span><select {...common} aria-describedby={hint ? `${field.name}-hint` : undefined}><option value="">{field.required ? 'Selecione' : 'Não informado'}</option>{options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select>{hint && <small id={`${field.name}-hint`}>{hint}</small>}</label>;
   }
   return <label className="field"><span>{field.label}</span><input type={field.type} {...common} /></label>;
 }
@@ -89,7 +89,7 @@ export function EntityList({ config }) {
     ]).then(([categorias, cursos, modulos]) => setFilterData({ categorias, cursos, modulos })).catch((requestError) => setError(requestError.message));
   }, [config.key]);
 
-  const directRelationships = config.fields.filter((field) => field.reference);
+  const directRelationships = config.fields.filter((field) => field.reference && !field.formOnly);
   useEffect(() => {
     const references = [...new Set([...directRelationships.map((field) => field.reference), ...(contextReferences[config.key] || [])])];
     if (!references.length) return;
@@ -123,7 +123,7 @@ export function EntityList({ config }) {
     const effectiveCourse = course || courseFromModule;
     const category = effectiveCourse && lookup('categorias', effectiveCourse.ID_Categoria);
     const values = [];
-    if (['modulos', 'aulas', 'matriculas', 'avaliacoes', 'certificados', 'progresso', 'trilha-cursos'].includes(config.key) && effectiveCourse && !directRelationships.some((field) => field.reference === 'cursos')) values.push({ label: 'Curso', value: referenceLabel('cursos', effectiveCourse) });
+    if (['modulos', 'aulas', 'matriculas', 'avaliacoes', 'certificados', 'progresso'].includes(config.key) && effectiveCourse && !directRelationships.some((field) => field.reference === 'cursos')) values.push({ label: 'Curso', value: referenceLabel('cursos', effectiveCourse) });
     if (['aulas', 'progresso'].includes(config.key) && modulo && !directRelationships.some((field) => field.reference === 'modulos')) values.push({ label: 'Módulo', value: referenceLabel('modulos', modulo) });
     if (category && !directRelationships.some((field) => field.reference === 'categorias')) values.push({ label: 'Categoria', value: referenceLabel('categorias', category) });
     return values;
@@ -193,9 +193,10 @@ export function EntityForm({ config, edit = false }) {
   const [references, setReferences] = useState({});
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const curso = config.key === 'cursos';
 
   function changeField(name, value) {
-    setForm((current) => ({ ...current, [name]: value }));
+    setForm((current) => ({ ...current, [name]: value, ...(curso && name === 'ID_Categoria' ? { ID_Trilha: '' } : {}) }));
   }
 
   useEffect(() => {
@@ -205,7 +206,7 @@ export function EntityForm({ config, edit = false }) {
         const value = item[field.name];
         return [field.name, field.type === 'date' && value ? String(value).slice(0, 10) : value];
       }));
-      setForm(values);
+      setForm({ ...values, TotalTrilhas: item.TotalTrilhas });
     }).catch((requestError) => setError(requestError.message));
   }, [config, edit, id]);
 
@@ -236,6 +237,13 @@ export function EntityForm({ config, edit = false }) {
   const canManage = Boolean(usuario?.IsAdmin) || usuario?.Email?.toLowerCase() === 'admin@admin.com';
   if (!canManage || studentManagedEntities.has(config.key)) return <Navigate to={config.route} replace />;
 
+  const trilhasDaCategoria = (references.trilhas || []).filter((trilha) => String(trilha.ID_Categoria) === String(form.ID_Categoria));
+  const trilhaValida = trilhasDaCategoria.some((trilha) => String(trilha.ID_Trilha) === String(form.ID_Trilha));
+  let dicaTrilha;
+  if (!form.ID_Categoria) dicaTrilha = 'Selecione a categoria primeiro.';
+  else if (references.trilhas && !trilhasDaCategoria.length) dicaTrilha = 'Cadastre uma trilha nesta categoria antes de salvar o curso.';
+  else if (form.TotalTrilhas > 1) dicaTrilha = 'Este curso já está em várias trilhas. Se escolher outra, ela passará a ser a única.';
+
   return (
     <section className="page narrow-page">
       <header className="page-heading">
@@ -244,8 +252,13 @@ export function EntityForm({ config, edit = false }) {
       </header>
       <form className="panel form-panel" onSubmit={submit}>
         {error && <p className="form-error" role="alert">{error}</p>}
-        <div className="form-grid">{config.fields.map((field) => <Field key={field.name} field={field} value={form[field.name]} onChange={changeField} referenceItems={(references[field.reference] || []).filter(field.referenceFilter || (() => true))} />)}</div>
-        <div className="form-actions"><button className="button primary" type="submit" disabled={loading}><Save size={18} />{loading ? 'Salvando...' : 'Salvar'}</button></div>
+        <div className="form-grid">{config.fields.map((field) => {
+          const campoTrilha = curso && field.name === 'ID_Trilha';
+          return <Field key={field.name} field={field} value={form[field.name]} onChange={changeField}
+            referenceItems={campoTrilha ? trilhasDaCategoria : (references[field.reference] || []).filter(field.referenceFilter || (() => true))}
+            disabled={campoTrilha && !trilhasDaCategoria.length} hint={campoTrilha ? dicaTrilha : undefined} />;
+        })}</div>
+        <div className="form-actions"><button className="button primary" type="submit" disabled={loading || (curso && !trilhaValida)}><Save size={18} />{loading ? 'Salvando...' : 'Salvar'}</button></div>
       </form>
     </section>
   );

@@ -30,6 +30,7 @@ COPY --from=build /app/prisma ./prisma
 COPY --from=build /app/prisma.config.ts ./prisma.config.ts
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/src/generated ./src/generated
+COPY prisma-studio.cjs ./prisma-studio.cjs
 COPY docker-entrypoint.sh /usr/local/bin/hyperlessons-api
 
 RUN chmod +x /usr/local/bin/hyperlessons-api \
@@ -38,3 +39,4 @@ RUN chmod +x /usr/local/bin/hyperlessons-api \
 USER node
 EXPOSE 8080
 ENTRYPOINT ["/usr/local/bin/hyperlessons-api"]
+CMD ["api"]

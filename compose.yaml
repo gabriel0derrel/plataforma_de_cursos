@@ -87,6 +87,21 @@ services:
       retries: 12
       start_period: 20s
 
+  prisma-studio:
+    build:
+      context: ./backend
+    env_file:
+      - ./backend/.env
+    command: ["node", "prisma-studio.cjs"]
+    ports:
+      - "127.0.0.1:5555:5556"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - plataforma_interna
+      - acesso_host
+
   frontend:
     build:
       context: ./frontend

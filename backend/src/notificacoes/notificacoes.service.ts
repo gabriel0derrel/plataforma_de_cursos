@@ -3,7 +3,16 @@ import { randomUUID } from 'crypto';
 import { Consumer, Kafka, Producer } from 'kafkajs';
 import { PrismaService } from '../prisma/prisma.service';
 
-export type TipoNotificacaoMobile = 'conta-criada' | 'login' | 'aula-concluida' | 'curso-concluido' | 'novo-curso';
+const conteudos = {
+  'novo-curso': ['Novo curso disponível', 'O curso'],
+  'nova-categoria': ['Nova categoria disponível', 'A categoria'],
+  'nova-trilha': ['Nova trilha disponível', 'A trilha'],
+  'novo-modulo': ['Novo módulo disponível', 'O módulo'],
+  'nova-aula': ['Nova aula disponível', 'A aula'],
+} as const;
+
+type TipoNovoConteudo = keyof typeof conteudos;
+export type TipoNotificacaoMobile = 'conta-criada' | 'login' | 'aula-concluida' | 'curso-concluido' | TipoNovoConteudo;
 
 type EventoNotificacao = {
   eventoId: string;
@@ -40,6 +49,11 @@ export class NotificacoesService implements OnModuleInit, OnModuleDestroy {
       this.producerConnected ? this.producer.disconnect() : Promise.resolve(),
       this.consumerConnected ? this.consumer.disconnect() : Promise.resolve(),
     ]);
+  }
+
+  publicarCriacao(tipo: TipoNovoConteudo, nome: string): Promise<void> {
+    const [titulo, recurso] = conteudos[tipo];
+    return this.publicar({ tipo, paraTodosAlunos: true, titulo, mensagem: `${recurso} “${nome}” chegou à plataforma.` });
   }
 
   async publicar(evento: Omit<EventoNotificacao, 'eventoId' | 'dataCriacao'>): Promise<void> {

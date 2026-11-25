@@ -8,6 +8,8 @@ export interface Assinatura { ID_Assinatura: number; ID_Plano: number; DataInici
 export interface Pagamento { ID_Pagamento: number; ValorPago: number; MetodoPagamento: string; DataPagamento: string; Assinatura: { Plano: { Nome: string } }; }
 export interface Conta { ID_Usuario: number; NomeCompleto: string; Email: string; }
 export interface Categoria { ID_Categoria: number; Nome: string; Descricao: string | null; }
+export interface Trilha { ID_Trilha: number; ID_Categoria: number | null; Titulo: string; Descricao: string; }
+export interface TrilhaCurso { ID_Trilha: number; ID_Curso: number; Ordem: number; }
 export interface Modulo { ID_Modulo: number; ID_Curso: number; Titulo: string; Ordem: number; }
 
 export const alunoService = {
@@ -16,6 +18,8 @@ export const alunoService = {
   matriculas: () => request<Matricula[]>('/me/matriculas'),
   matricular: (ID_Curso: number) => request('/me/matriculas', { method: 'POST', body: { ID_Curso } }),
   categorias: () => request<Categoria[]>('/categorias'),
+  trilhas: () => request<Trilha[]>('/trilhas'),
+  trilhaCursos: () => request<TrilhaCurso[]>('/trilha-cursos'),
   modulos: () => request<Modulo[]>('/modulos'),
   progresso: () => request<Progresso[]>('/me/progresso'),
   marcarProgresso: (ID_Aula: number, Status: Progresso['Status']) => request('/me/progresso/' + ID_Aula, { method: 'PATCH', body: { Status } }),

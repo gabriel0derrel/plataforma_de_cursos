@@ -36,7 +36,7 @@ docker compose ps -a
 
 Aguarde o backend ficar `healthy`. O serviço `kafka-init` termina com código
 `0` após criar o tópico de notificações. Abra o frontend em
-`http://localhost:5173`.
+`http://localhost:5173` e o Prisma Studio em `http://localhost:5555`.
 
 ### 3. Inicie o Metro no computador
 
@@ -95,6 +95,10 @@ Os acessos publicados na máquina são:
 | Frontend | http://localhost:5173 |
 | Swagger da API | http://localhost:8080/api/docs |
 | Kafka UI | http://localhost:8090 |
+| Prisma Studio | http://localhost:5555 |
+
+A pilha inicia o Prisma Studio depois da API. O Studio usa o mesmo PostgreSQL
+da plataforma e sua porta fica disponível no próprio computador.
 
 A rede `plataforma_interna` conecta a API, o PostgreSQL, o Kafka, o frontend e
 a Kafka UI. Frontend e Kafka UI ficam disponíveis no próprio computador. A API
@@ -126,7 +130,9 @@ A API ficará disponível em `http://localhost:8080/api`.
 
 ## Notificações do mobile com Kafka
 
-As notificações são produzidas e consumidas pelo backend via Kafka e são exibidas somente no aplicativo mobile. Elas são geradas ao criar conta, entrar, concluir uma aula, concluir um curso e quando um administrador publica um curso.
+As notificações são produzidas e consumidas pelo backend via Kafka e são exibidas no painel do app mobile. Elas são geradas ao criar conta, entrar, concluir uma aula ou um curso e quando um administrador cadastra uma categoria, trilha, curso, módulo ou aula.
+
+Na web, cadastre o curso escolhendo a categoria e uma trilha dessa categoria. O novo curso entra no fim da trilha. No app, o catálogo segue **Categoria → Trilha → Curso**. Cursos antigos sem vínculo aparecem em **Sem trilha**, dentro da categoria.
 
 Sem Docker, deixe um broker Kafka já instalado e em execução no endereço configurado abaixo. Para usar outra máquina, porta ou cluster Kafka, informe os brokers separados por vírgula. A opção Docker da seção anterior já inicia o broker e a interface Kafka UI automaticamente.
 

@@ -15,6 +15,9 @@ DATABASE_URL="$(node -e '
 ')"
 export DATABASE_URL
 
-./node_modules/.bin/prisma migrate deploy --config ./prisma.config.ts
+if [ "${1:-api}" = api ]; then
+  ./node_modules/.bin/prisma migrate deploy --config ./prisma.config.ts
+  set -- node dist/main
+fi
 
-exec node dist/main
+exec "$@"
