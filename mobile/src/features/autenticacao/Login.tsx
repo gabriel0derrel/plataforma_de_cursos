@@ -4,6 +4,7 @@ import {
   KeyboardAvoidingView, Platform,
 } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { cores } from '../../colors';
 import type { RootStackParamList } from '../../navigation/navigationTypes';
 import { useUser } from './AuthContext';
@@ -12,6 +13,7 @@ import { useUser } from './AuthContext';
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 export default function Login({ navigation }: Props) {
+  const insets = useSafeAreaInsets();
   const { entrar } = useUser();
   const [email, setEmail] = useState<string>('');
   const [senha, setSenha] = useState<string>('');
@@ -32,7 +34,7 @@ export default function Login({ navigation }: Props) {
     >
       <View style={styles.tela}>
         {/* BLOCO 1: cabeçalho fixo */}
-        <View style={styles.cabecalho}>
+        <View style={[styles.cabecalho, { height: 68 + insets.top, paddingTop: insets.top }]}>
           <View style={styles.espacoSeta} />
           <Text style={styles.tituloBarra}>Trek HyperLessons</Text>
           <View style={styles.espacoSeta} />
@@ -76,7 +78,7 @@ export default function Login({ navigation }: Props) {
         </ScrollView>
 
         {/* BLOCO 3: rodapé fixo */}
-        <View style={styles.rodape}>
+        <View style={[styles.rodape, { height: 68 + insets.bottom, paddingBottom: insets.bottom }]}>
           <Text style={styles.rodapeTexto}>Não tem conta? </Text>
           <Text style={styles.link} onPress={() => navigation.navigate('Registro')}>
             Cadastre-se

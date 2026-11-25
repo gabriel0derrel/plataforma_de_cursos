@@ -6,12 +6,12 @@ import { cores } from '../../colors';
 const metodos = ['Pix', 'Cartao de credito', 'Boleto'];
 
 export function PagamentosPage() {
-  const [assinaturas, setAssinaturas] = useState<Assinatura[]>([]); const [pagamentos, setPagamentos] = useState<Pagamento[]>([]); const [assinaturaId, setAssinaturaId] = useState<number | null>(null); const [valor, setValor] = useState(''); const [metodo, setMetodo] = useState(metodos[0]); const [transacao, setTransacao] = useState(''); const [erro, setErro] = useState(''); const [carregando, setCarregando] = useState(true);
+  const [assinaturas, setAssinaturas] = useState<Assinatura[]>([]); const [pagamentos, setPagamentos] = useState<Pagamento[]>([]); const [assinaturaId, setAssinaturaId] = useState<number | null>(null); const [valor, setValor] = useState(''); const [metodo, setMetodo] = useState(metodos[0]); const [erro, setErro] = useState(''); const [carregando, setCarregando] = useState(true);
   const carregar = useCallback(async () => { try { setCarregando(true); const [listaPagamentos, listaAssinaturas] = await Promise.all([alunoService.pagamentos(), alunoService.assinaturas()]); setPagamentos(listaPagamentos); setAssinaturas(listaAssinaturas); setErro(''); } catch (error) { setErro(error instanceof Error ? error.message : 'Não foi possível carregar pagamentos.'); } finally { setCarregando(false); } }, []);
   useEffect(() => { carregar(); }, [carregar]);
   async function pagar(): Promise<void> {
-    if (!assinaturaId || !valor || !transacao) { setErro('Selecione uma assinatura e preencha valor e ID da transação.'); return; }
-    try { await alunoService.pagar({ ID_Assinatura: assinaturaId, ValorPago: Number(valor.replace(',', '.')), MetodoPagamento: metodo, Id_Transacao_Gateway: transacao }); setValor(''); setTransacao(''); await carregar(); } catch (error) { setErro(error instanceof Error ? error.message : 'Não foi possível registrar o pagamento.'); }
+    if (!assinaturaId || !valor) { setErro('Selecione uma assinatura e preencha o valor.'); return; }
+    try { await alunoService.pagar({ ID_Assinatura: assinaturaId, ValorPago: Number(valor.replace(',', '.')), MetodoPagamento: metodo }); setValor(''); await carregar(); } catch (error) { setErro(error instanceof Error ? error.message : 'Não foi possível registrar o pagamento.'); }
   }
   return <>
     <Text style={styles.titulo}>Pagamentos</Text><Text style={styles.subtitulo}>Registre o pagamento de uma assinatura.</Text>
@@ -20,7 +20,6 @@ export function PagamentosPage() {
     {assinaturas.map((assinatura) => <TouchableOpacity key={assinatura.ID_Assinatura} style={[styles.opcao, assinaturaId === assinatura.ID_Assinatura && styles.opcaoAtiva]} onPress={() => setAssinaturaId(assinatura.ID_Assinatura)}><Text style={styles.opcaoTexto}>{assinatura.Plano.Nome}</Text></TouchableOpacity>)}
     <TextInput style={styles.input} value={valor} onChangeText={setValor} keyboardType="decimal-pad" placeholder="Valor pago" placeholderTextColor={cores.textoSuave} />
     <View style={styles.metodos}>{metodos.map((item) => <TouchableOpacity key={item} style={[styles.metodo, metodo === item && styles.metodoAtivo]} onPress={() => setMetodo(item)}><Text style={[styles.metodoTexto, metodo === item && styles.metodoTextoAtivo]}>{item}</Text></TouchableOpacity>)}</View>
-    <TextInput style={styles.input} value={transacao} onChangeText={setTransacao} placeholder="ID da transação" placeholderTextColor={cores.textoSuave} />
     <TouchableOpacity style={styles.botao} onPress={pagar}><Text style={styles.botaoTexto}>REGISTRAR PAGAMENTO</Text></TouchableOpacity>
     <Text style={styles.secao}>Histórico</Text>
     {pagamentos.map((pagamento) => <View style={styles.item} key={pagamento.ID_Pagamento}><Text style={styles.itemTitulo}>{pagamento.Assinatura.Plano.Nome} · R$ {Number(pagamento.ValorPago).toFixed(2)}</Text><Text style={styles.itemTexto}>{pagamento.MetodoPagamento} · {new Date(pagamento.DataPagamento).toLocaleDateString('pt-BR')}</Text></View>)}

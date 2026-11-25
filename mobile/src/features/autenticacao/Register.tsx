@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { cores } from '../../colors';
 import type { RootStackParamList } from '../../navigation/navigationTypes';
 import { useUser } from './AuthContext';
@@ -11,6 +12,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Registro'>;
 interface FormRegistro { nome: string; email: string; senha: string; confirmar: string; }
 
 export default function Register({ navigation }: Props) {
+  const insets = useSafeAreaInsets();
   const { cadastrar } = useUser();
   const [form, setForm] = useState<FormRegistro>({ nome: '', email: '', senha: '', confirmar: '' });
 
@@ -42,7 +44,7 @@ export default function Register({ navigation }: Props) {
   return <KeyboardAvoidingView style={styles.keyboard} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
     <View style={styles.tela}>
       {/* BLOCO 1: navegação e título fixos */}
-      <View style={styles.cabecalho}>
+      <View style={[styles.cabecalho, { height: 68 + insets.top, paddingTop: insets.top }]}>
         <TouchableOpacity style={styles.botaoSeta} onPress={() => navigation.goBack()} accessibilityLabel="Voltar para login"><Ionicons name="chevron-back" size={25} color={cores.primaria} /></TouchableOpacity>
         <Text style={styles.tituloBarra}>Criar conta</Text>
         <View style={styles.espacoSeta} />
@@ -60,7 +62,7 @@ export default function Register({ navigation }: Props) {
       </ScrollView>
 
       {/* BLOCO 3: rodapé fixo */}
-      <View style={styles.rodape}>
+      <View style={[styles.rodape, { height: 68 + insets.bottom, paddingBottom: insets.bottom }]}>
         <Text style={styles.rodapeTexto}>Já tem conta? </Text>
         <Text style={styles.link} onPress={() => navigation.goBack()}>Entrar</Text>
       </View>

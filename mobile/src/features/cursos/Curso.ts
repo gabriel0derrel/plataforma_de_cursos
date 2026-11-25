@@ -1,5 +1,6 @@
 export interface Curso {
   ID_Curso: number;
+  ID_Categoria: number;
   Titulo: string;
   Descricao: string;
   Nivel: string;
@@ -10,6 +11,7 @@ export interface Curso {
 // Modelo dos cursos recebidos da API.
 export class CursoModel implements Curso {
   ID_Curso = 0;
+  ID_Categoria = 0;
   Titulo = '';
   Descricao = '';
   Nivel = '';

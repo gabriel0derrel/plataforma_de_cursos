@@ -1,12 +1,14 @@
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { NotificacaoMobile } from './notificacoesApi';
 import { cores } from '../../colors';
 
 export function NotificationsPanel({ visible, notificacoes, onClose, onAbrir }: { visible: boolean; notificacoes: NotificacaoMobile[]; onClose: () => void; onAbrir: (notificacao: NotificacaoMobile) => void }) {
+  const insets = useSafeAreaInsets();
   return <Modal animationType="slide" transparent visible={visible} onRequestClose={onClose}>
     <Pressable style={styles.fundo} onPress={onClose}>
-      <Pressable style={styles.painel} onPress={() => undefined}>
+      <Pressable style={[styles.painel, { paddingBottom: insets.bottom }]} onPress={() => undefined}>
         <View style={styles.cabecalho}><Text style={styles.titulo}>Notificações</Text><TouchableOpacity style={styles.fechar} onPress={onClose} accessibilityLabel="Fechar notificações"><Ionicons name="close" size={24} color={cores.primaria} /></TouchableOpacity></View>
         <ScrollView contentContainerStyle={styles.lista} showsVerticalScrollIndicator={false}>
           {notificacoes.length === 0 ? <Text style={styles.vazio}>Você não possui notificações.</Text> : null}

@@ -3,6 +3,7 @@ import type { ComponentProps } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AssinaturasPage } from './features/aluno/Assinaturas';
 import { AulasCursoPage } from './features/aluno/AulasCurso';
 import { AvaliacoesPage } from './features/aluno/Avaliacoes';
@@ -10,6 +11,7 @@ import { CertificadosPage } from './features/aluno/Certificados';
 import { ContaPage } from './features/aluno/Conta';
 import { CursosPage } from './features/aluno/Cursos';
 import { JornadaPage } from './features/aluno/Jornada';
+import { ModulosCursoPage } from './features/aluno/ModulosCurso';
 import { PagamentosPage } from './features/aluno/Pagamentos';
 import { PerfilPage } from './features/aluno/Perfil';
 import type { PaginaAluno } from './features/aluno/Perfil';
@@ -22,13 +24,14 @@ import { notificacoesApi, type NotificacaoMobile } from './features/notificacoes
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Principal'>;
 type PaginaMenu = 'Início' | 'Cursos' | 'Jornada' | 'Perfil';
-type Pagina = PaginaMenu | PaginaAluno | 'Aulas do curso';
-type Tela = { pagina: Pagina; curso?: string };
+type Pagina = PaginaMenu | PaginaAluno | 'Módulos do curso' | 'Aulas do módulo';
+type Tela = { pagina: Pagina; curso?: string; cursoId?: number; modulo?: string; moduloId?: number };
 type IconName = ComponentProps<typeof Ionicons>['name'];
 
 const icones: Record<PaginaMenu, IconName> = { Início: 'home', Cursos: 'book', Jornada: 'stats-chart', Perfil: 'person' };
 
 export default function AppLayout({ navigation }: Props) {
+  const insets = useSafeAreaInsets();
   const { usuario, sair } = useUser();
   const [tela, setTela] = useState<Tela>({ pagina: 'Início' });
   const [historico, setHistorico] = useState<Tela[]>([]);
@@ -47,7 +50,7 @@ export default function AppLayout({ navigation }: Props) {
   }, [carregarNotificacoes]);
 
   function navegar(proxima: Tela): void {
-    if (proxima.pagina === tela.pagina && proxima.curso === tela.curso) return;
+    if (proxima.pagina === tela.pagina && proxima.cursoId === tela.cursoId && proxima.moduloId === tela.moduloId) return;
     setHistorico((itens) => [...itens, tela]);
     setTela(proxima);
   }
@@ -75,8 +78,9 @@ export default function AppLayout({ navigation }: Props) {
 
   function renderPagina() {
     if (tela.pagina === 'Cursos') return <CursosPage />;
-    if (tela.pagina === 'Jornada') return <JornadaPage onSelecionarCurso={(curso) => navegar({ pagina: 'Aulas do curso', curso })} />;
-    if (tela.pagina === 'Aulas do curso') return <AulasCursoPage curso={tela.curso || ''} />;
+    if (tela.pagina === 'Jornada') return <JornadaPage onSelecionarCurso={(cursoId, curso) => navegar({ pagina: 'Módulos do curso', cursoId, curso })} />;
+    if (tela.pagina === 'Módulos do curso') return <ModulosCursoPage cursoId={tela.cursoId || 0} onSelecionarModulo={(modulo) => navegar({ pagina: 'Aulas do módulo', cursoId: tela.cursoId, curso: tela.curso, moduloId: modulo.ID_Modulo, modulo: modulo.Titulo })} />;
+    if (tela.pagina === 'Aulas do módulo') return <AulasCursoPage cursoId={tela.cursoId || 0} moduloId={tela.moduloId || 0} />;
     if (tela.pagina === 'Avaliações') return <AvaliacoesPage />;
     if (tela.pagina === 'Certificados') return <CertificadosPage />;
     if (tela.pagina === 'Assinaturas') return <AssinaturasPage />;
@@ -88,9 +92,9 @@ export default function AppLayout({ navigation }: Props) {
 
   return <View style={styles.tela}>
     {/* BLOCO 1: apenas a seta de retorno e o título da tela atual */}
-    <View style={styles.cabecalho}>
+    <View style={[styles.cabecalho, { height: 68 + insets.top, paddingTop: insets.top }]}>
       {historico.length > 0 ? <TouchableOpacity style={styles.botaoSeta} onPress={voltar} accessibilityLabel="Voltar"><Ionicons name="chevron-back" size={25} color={cores.primaria} /></TouchableOpacity> : <View style={styles.espacoSeta} />}
-      <Text style={styles.titulo}>{tela.pagina === 'Aulas do curso' ? tela.curso : tela.pagina}</Text>
+      <Text style={styles.titulo}>{tela.pagina === 'Módulos do curso' ? tela.curso : tela.pagina === 'Aulas do módulo' ? tela.modulo : tela.pagina}</Text>
       <TouchableOpacity style={styles.botaoNotificacoes} onPress={() => { setNotificacoesAbertas(true); void carregarNotificacoes(); }} accessibilityLabel="Abrir notificações">
         <Ionicons name="notifications-outline" size={22} color={cores.primaria} />
         {notificacoes.some((notificacao) => !notificacao.Lida) ? <View style={styles.badge}><Text style={styles.badgeTexto}>{notificacoes.filter((notificacao) => !notificacao.Lida).length}</Text></View> : null}
@@ -101,7 +105,7 @@ export default function AppLayout({ navigation }: Props) {
     <ScrollView style={styles.scroll} contentContainerStyle={styles.conteudo} showsVerticalScrollIndicator={false}>{renderPagina()}</ScrollView>
 
     {/* BLOCO 3: menu fixo */}
-    <View style={styles.menu}>
+    <View style={[styles.menu, { height: 72 + insets.bottom, paddingBottom: insets.bottom }]}>
       {(['Início', 'Cursos', 'Jornada', 'Perfil'] as PaginaMenu[]).map((item) => <TouchableOpacity key={item} style={styles.menuItem} onPress={() => navegar({ pagina: item })}>
         <Ionicons name={tela.pagina === item ? icones[item] : `${icones[item]}-outline` as IconName} size={22} color={tela.pagina === item ? cores.primaria : cores.textoSuave} />
         <Text style={[styles.menuTexto, tela.pagina === item && styles.menuTextoAtivo]}>{item}</Text>

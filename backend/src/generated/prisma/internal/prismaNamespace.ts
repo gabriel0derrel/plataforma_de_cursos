@@ -411,8 +411,7 @@ export const ModelName = {
   Avaliacao: 'Avaliacao',
   Certificado: 'Certificado',
   TrilhaCurso: 'TrilhaCurso',
-  NotificacaoMobile: 'NotificacaoMobile',
-  DispositivoPush: 'DispositivoPush'
+  NotificacaoMobile: 'NotificacaoMobile'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -428,7 +427,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "usuario" | "categoria" | "plano" | "trilha" | "curso" | "modulo" | "aula" | "matricula" | "progressoAula" | "assinatura" | "pagamento" | "avaliacao" | "certificado" | "trilhaCurso" | "notificacaoMobile" | "dispositivoPush"
+    modelProps: "usuario" | "categoria" | "plano" | "trilha" | "curso" | "modulo" | "aula" | "matricula" | "progressoAula" | "assinatura" | "pagamento" | "avaliacao" | "certificado" | "trilhaCurso" | "notificacaoMobile"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1542,80 +1541,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    DispositivoPush: {
-      payload: Prisma.$DispositivoPushPayload<ExtArgs>
-      fields: Prisma.DispositivoPushFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.DispositivoPushFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DispositivoPushPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.DispositivoPushFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DispositivoPushPayload>
-        }
-        findFirst: {
-          args: Prisma.DispositivoPushFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DispositivoPushPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.DispositivoPushFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DispositivoPushPayload>
-        }
-        findMany: {
-          args: Prisma.DispositivoPushFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DispositivoPushPayload>[]
-        }
-        create: {
-          args: Prisma.DispositivoPushCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DispositivoPushPayload>
-        }
-        createMany: {
-          args: Prisma.DispositivoPushCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.DispositivoPushCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DispositivoPushPayload>[]
-        }
-        delete: {
-          args: Prisma.DispositivoPushDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DispositivoPushPayload>
-        }
-        update: {
-          args: Prisma.DispositivoPushUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DispositivoPushPayload>
-        }
-        deleteMany: {
-          args: Prisma.DispositivoPushDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.DispositivoPushUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.DispositivoPushUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DispositivoPushPayload>[]
-        }
-        upsert: {
-          args: Prisma.DispositivoPushUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DispositivoPushPayload>
-        }
-        aggregate: {
-          args: Prisma.DispositivoPushAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateDispositivoPush>
-        }
-        groupBy: {
-          args: Prisma.DispositivoPushGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.DispositivoPushGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.DispositivoPushCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.DispositivoPushCountAggregateOutputType> | number
-        }
-      }
-    }
   }
 } & {
   other: {
@@ -1825,16 +1750,6 @@ export const NotificacaoMobileScalarFieldEnum = {
 } as const
 
 export type NotificacaoMobileScalarFieldEnum = (typeof NotificacaoMobileScalarFieldEnum)[keyof typeof NotificacaoMobileScalarFieldEnum]
-
-
-export const DispositivoPushScalarFieldEnum = {
-  ID_DispositivoPush: 'ID_DispositivoPush',
-  ID_Usuario: 'ID_Usuario',
-  ExpoPushToken: 'ExpoPushToken',
-  DataAtualizacao: 'DataAtualizacao'
-} as const
-
-export type DispositivoPushScalarFieldEnum = (typeof DispositivoPushScalarFieldEnum)[keyof typeof DispositivoPushScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -2109,7 +2024,6 @@ export type GlobalOmitConfig = {
   certificado?: Prisma.CertificadoOmit
   trilhaCurso?: Prisma.TrilhaCursoOmit
   notificacaoMobile?: Prisma.NotificacaoMobileOmit
-  dispositivoPush?: Prisma.DispositivoPushOmit
 }
 
 /* Types for Logging */

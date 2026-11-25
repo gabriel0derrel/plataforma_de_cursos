@@ -114,8 +114,3 @@ export type TrilhaCurso = Prisma.TrilhaCursoModel
  * 
  */
 export type NotificacaoMobile = Prisma.NotificacaoMobileModel
-/**
- * Model DispositivoPush
- * 
- */
-export type DispositivoPush = Prisma.DispositivoPushModel

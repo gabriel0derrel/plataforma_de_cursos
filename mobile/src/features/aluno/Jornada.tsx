@@ -3,7 +3,7 @@ import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'rea
 import { alunoService, type Matricula, type Progresso } from './alunoApi';
 import { cores } from '../../colors';
 
-export function JornadaPage({ onSelecionarCurso }: { onSelecionarCurso: (curso: string) => void }) {
+export function JornadaPage({ onSelecionarCurso }: { onSelecionarCurso: (cursoId: number, curso: string) => void }) {
   const [matriculas, setMatriculas] = useState<Matricula[]>([]);
   const [progresso, setProgresso] = useState<Progresso[]>([]);
   const [erro, setErro] = useState('');
@@ -16,20 +16,20 @@ export function JornadaPage({ onSelecionarCurso }: { onSelecionarCurso: (curso: 
     } catch (error) { setErro(error instanceof Error ? error.message : 'Não foi possível carregar sua jornada.'); }
     finally { setCarregando(false); }
   }, []);
-  useEffect(() => { carregar(); }, [carregar]);
+  useEffect(() => { void carregar(); }, [carregar]);
 
   return <>
     <Text style={styles.titulo}>Minha jornada</Text>
-    <Text style={styles.subtitulo}>Escolha um dos seus cursos para visualizar as respectivas aulas.</Text>
+    <Text style={styles.subtitulo}>Entre em um curso, escolha um módulo e então veja as aulas.</Text>
     {erro ? <Text style={styles.erro}>{erro}</Text> : null}
     {carregando ? <ActivityIndicator color={cores.primaria} /> : null}
     {!carregando && matriculas.length === 0 ? <Text style={styles.vazio}>Matricule-se em um curso para iniciar sua jornada.</Text> : null}
     {matriculas.map((matricula) => {
-      const aulasDoCurso = progresso.filter((aula) => aula.Curso === matricula.Curso.Titulo);
+      const aulasDoCurso = progresso.filter((aula) => aula.ID_Curso === matricula.ID_Curso);
       const concluidas = aulasDoCurso.filter((aula) => aula.Status === 'Concluida').length;
-      return <TouchableOpacity style={styles.curso} key={matricula.ID_Matricula} onPress={() => onSelecionarCurso(matricula.Curso.Titulo)}>
+      return <TouchableOpacity style={styles.curso} key={matricula.ID_Matricula} onPress={() => onSelecionarCurso(matricula.ID_Curso, matricula.Curso.Titulo)} accessibilityLabel={`Abrir módulos de ${matricula.Curso.Titulo}`}>
         <View style={styles.cursoTexto}><Text style={styles.cursoTitulo}>{matricula.Curso.Titulo}</Text><Text style={styles.cursoMeta}>{matricula.Curso.Nivel} · {concluidas}/{aulasDoCurso.length} aulas concluídas</Text></View>
-        <Text style={styles.abrir}>Ver aulas</Text>
+        <Text style={styles.abrir}>Ver módulos</Text>
       </TouchableOpacity>;
     })}
   </>;
