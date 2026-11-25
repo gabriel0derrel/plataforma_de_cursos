@@ -1,0 +1,157 @@
+name: hyperlessons
+
+services:
+  postgres:
+    build:
+      context: ./postgres
+    env_file:
+      - ./backend/.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - plataforma_interna
+    healthcheck:
+      test: ["CMD-SHELL", "db_url=$$DATABASE_URL; credentials=$${db_url#*://}; database=$${db_url#*@*/}; user=$${credentials%%:*}; database=$${database%%\\?*}; pg_isready -U \"$$user\" -d \"$$database\""]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 5s
+
+  kafka:
+    build:
+      context: ./kafka
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    networks:
+      - plataforma_interna
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 10s
+      retries: 20
+      start_period: 20s
+
+  kafka-init:
+    build:
+      context: ./kafka
+    env_file:
+      - ./backend/.env
+    entrypoint: ["/bin/sh", "-ec"]
+    command: >-
+      topic="$${KAFKA_NOTIFICATIONS_TOPIC:-hyperlessons.mobile.notifications.v1}";
+      /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092
+      --create --if-not-exists --topic "$$topic"
+      --partitions 1 --replication-factor 1
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - plataforma_interna
+
+  backend:
+    build:
+      context: ./backend
+    env_file:
+      - ./backend/.env
+    environment:
+      KAFKA_BROKERS: kafka:9092
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka-init:
+        condition: service_completed_successfully
+    networks:
+      - plataforma_interna
+      - acesso_host
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"require('net').connect(8080, '127.0.0.1').once('connect', () => process.exit(0)).once('error', () => process.exit(1))\""]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:8080/api}
+    ports:
+      - "127.0.0.1:5173:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - plataforma_interna
+      - acesso_host
+
+  mobile:
+    profiles: [mobile-docker]
+    build:
+      context: ./mobile
+    env_file:
+      - ./mobile/.env
+    network_mode: host
+    volumes:
+      - expo_state:/root/.expo
+    stdin_open: true
+    tty: true
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - >-
+          fetch('http://127.0.0.1:8081/status')
+          .then(async (response) => {
+            if (!response.ok || (await response.text()).trim() !== 'packager-status:running') process.exit(1);
+          })
+          .catch(() => process.exit(1));
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:v0.7.2
+    environment:
+      KAFKA_CLUSTERS_0_NAME: hyperlessons
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+    ports:
+      - "127.0.0.1:8090:8080"
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - plataforma_interna
+      - acesso_host
+
+volumes:
+  postgres_data:
+  kafka_data:
+  expo_state:
+
+networks:
+  plataforma_interna:
+    internal: true
+  acesso_host:
+    driver: bridge

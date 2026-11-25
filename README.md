@@ -2,6 +2,106 @@
 
 Aplicação de gestão de cursos composta por um frontend React/Vite e uma API NestJS com Prisma, PostgreSQL e autenticação JWT.
 
+## Primeira inicialização
+
+Tenha o Docker Engine com Docker Compose, Node.js 22.13 ou mais recente com npm
+e o Expo Go instalado no celular. Conecte o celular e o computador à mesma
+rede Wi-Fi.
+
+### 1. Prepare os arquivos de ambiente
+
+Na raiz do projeto, crie somente os `.env` que estiverem faltando:
+
+```bash
+for projeto in backend frontend mobile; do
+  test -f "$projeto/.env" || cp "$projeto/.env.example" "$projeto/.env"
+done
+```
+
+Em `backend/.env`, confira as credenciais e o nome do banco em `DATABASE_URL`
+e configure `JWT_SECRET`. O PostgreSQL do Compose será inicializado com essas
+credenciais. Em `mobile/.env`, use o IP local do computador nas duas URLs:
+
+```env
+EXPO_PUBLIC_API_URL=http://192.168.107.175:8080/api
+EXPO_PACKAGER_PROXY_URL=http://192.168.107.175:8081
+```
+
+### 2. Inicie a pilha Docker
+
+```bash
+docker compose --env-file frontend/.env up -d --build
+docker compose ps -a
+```
+
+Aguarde o backend ficar `healthy`. O serviço `kafka-init` termina com código
+`0` após criar o tópico de notificações. Abra o frontend em
+`http://localhost:5173`.
+
+### 3. Inicie o Metro no computador
+
+Em outro terminal, a partir da raiz do projeto:
+
+```bash
+cd mobile
+npm ci
+npx expo login
+npx expo start --go --lan --port 8081
+```
+
+Use a mesma conta no Expo Go e escaneie o QR Code que aparecer no terminal.
+Na primeira inicialização, a porta `8081` fica reservada para esse Metro local.
+Se você já tiver iniciado o perfil opcional `mobile-docker`, veja como liberar
+a porta na seção [Rodar o mobile com Expo Go](#rodar-o-mobile-com-expo-go).
+
+## Detalhes da execução com Docker
+
+O Docker Compose inicia o frontend, a API, o PostgreSQL, o Kafka e a Kafka UI.
+Para testar no celular, [rode o Metro no computador](#rodar-o-mobile-com-expo-go).
+
+Antes da primeira execução, confira estes arquivos de ambiente:
+
+- `backend/.env`: mantenha as credenciais e o nome do banco na `DATABASE_URL`.
+  O Compose usa essas mesmas credenciais para inicializar o PostgreSQL e troca
+  apenas o host interno de `localhost` para `postgres`.
+- `frontend/.env`: `VITE_API_URL` precisa apontar para a API vista pelo
+  navegador, normalmente `http://localhost:8080/api`.
+
+Na raiz do repositório, inicie os serviços em segundo plano:
+
+```bash
+docker compose --env-file frontend/.env up -d --build
+```
+
+O `--env-file frontend/.env` fornece `VITE_API_URL` no momento do build do
+Vite. O backend carrega seu próprio `.env`. O Compose aplica as migrations do
+Prisma e cria o tópico Kafka de notificações antes de iniciar a API.
+
+Se o build falhar com `lookup registry-1.docker.io: no such host` e as imagens
+já estiverem na máquina, suba a pilha usando as imagens locais:
+
+```bash
+docker compose --env-file frontend/.env up -d --no-build --pull never
+docker compose ps -a
+```
+
+Esse comando usa a última versão construída de cada imagem. Se faltar alguma,
+o Docker precisa voltar a resolver `registry-1.docker.io` para refazer o build.
+
+Os acessos publicados na máquina são:
+
+| Serviço | Endereço |
+| --- | --- |
+| Frontend | http://localhost:5173 |
+| Swagger da API | http://localhost:8080/api/docs |
+| Kafka UI | http://localhost:8090 |
+
+A rede `plataforma_interna` conecta a API, o PostgreSQL, o Kafka, o frontend e
+a Kafka UI. Frontend e Kafka UI ficam disponíveis no próprio computador. A API
+publica a porta `8080` para o celular. PostgreSQL e Kafka ficam na rede interna,
+sem portas publicadas. `docker compose down` preserva os volumes nomeados.
+`docker compose down -v` remove esses volumes, incluindo os dados do banco e do Kafka.
+
 ## Pré-requisitos
 
 - Node.js 22 LTS ou superior e npm;
@@ -28,7 +128,7 @@ A API ficará disponível em `http://localhost:8080/api`.
 
 As notificações são produzidas e consumidas pelo backend via Kafka e são exibidas somente no aplicativo mobile. Elas são geradas ao criar conta, entrar, concluir uma aula, concluir um curso e quando um administrador publica um curso.
 
-O projeto não usa Docker. Antes de iniciar a API, deixe um broker Kafka já instalado e em execução no endereço configurado abaixo. Para usar outra máquina, porta ou cluster Kafka, informe os brokers separados por vírgula.
+Sem Docker, deixe um broker Kafka já instalado e em execução no endereço configurado abaixo. Para usar outra máquina, porta ou cluster Kafka, informe os brokers separados por vírgula. A opção Docker da seção anterior já inicia o broker e a interface Kafka UI automaticamente.
 
 ### Iniciar Kafka pelo arquivo compactado
 
@@ -108,34 +208,55 @@ VITE_API_URL=http://localhost:8080/api
 
 ## Rodar o mobile com Expo Go
 
-O aplicativo mobile está na pasta `mobile` e pode ser aberto no celular pelo **Expo Go**.
+Instale o Expo Go no celular e use Node.js 22.13 ou mais recente no computador.
+Conecte os dois dispositivos à mesma rede Wi-Fi. A API pode continuar no Docker.
 
-1. Instale o aplicativo Expo Go no Android (Google Play) ou no iOS (App Store).
-2. Deixe o computador e o celular na mesma rede Wi-Fi.
-3. Crie `mobile/.env` a partir de `mobile/.env.example` e substitua o IP pelo endereço local do computador que executa a API. Não use `localhost`, pois no celular ele aponta para o próprio dispositivo:
+Se já iniciou o Metro pelo Docker, pare apenas esse serviço na raiz do projeto
+para liberar a porta `8081`:
+
+```bash
+docker compose --profile mobile-docker stop mobile
+```
+
+Confira se `mobile/.env` aponta para o IP atual do computador. Se precisar criar
+o arquivo, use `mobile/.env.example` como base. Na máquina atual, os valores são:
 
 ```env
-EXPO_PUBLIC_API_URL=http://192.168.0.10:8080/api
+EXPO_PUBLIC_API_URL=http://192.168.107.175:8080/api
+EXPO_PACKAGER_PROXY_URL=http://192.168.107.175:8081
 ```
 
-4. Em um novo terminal, execute:
+No computador, instale as dependências e inicie o Metro em um terminal interativo:
 
 ```bash
 cd mobile
-npm install
-npx expo start
+npm ci
+npx expo login
+npx expo start --go --lan --port 8081
 ```
 
-5. Após o Metro Bundler exibir o QR Code, abra o Expo Go e faça a leitura do código. No iOS, também é possível ler o QR Code com o aplicativo Câmera e escolher abrir no Expo Go.
+Faça login no Expo Go com a mesma conta usada no CLI e leia o QR Code do terminal.
+Se o CLI pedir confirmação ao abrir o projeto, responda nesse terminal. Após a
+primeira instalação, basta rodar `npx expo start --go --lan --port 8081`.
 
-O app será carregado no celular e atualizado automaticamente ao salvar alterações. Para encerrar o servidor, pressione `Ctrl + C` no terminal.
+Se o celular não carregar o projeto, teste `http://192.168.107.175:8081/status`
+no navegador do celular. Se o app abrir, mas falhar ao buscar dados, teste
+`http://192.168.107.175:8080/api/dashboard/resumo`. O primeiro endereço deve
+mostrar `packager-status:running`, e o segundo deve retornar JSON.
 
-Se a rede impedir a conexão entre celular e computador, inicie o Expo usando um túnel:
+### Opção de rodar o Metro no Docker
+
+No Linux, encerre o Metro local com `Ctrl+C` antes de ativar o perfil
+`mobile-docker`. O perfil inicia a pilha incluindo o Metro na rede do host:
 
 ```bash
-cd mobile
-npx expo start --tunnel
+docker compose --env-file frontend/.env --profile mobile-docker up -d --build
+docker compose exec mobile npx expo login --no-browser
+docker compose restart mobile
+docker compose logs -f mobile
 ```
+
+O volume `expo_state` guarda a sessão do Expo CLI do contêiner.
 
 ## Swagger
 
